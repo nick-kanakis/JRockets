@@ -1,0 +1,6 @@
+env:
+  useragent: ${userAgent}
+  clientid: ${clientId}
+  clientsecret: ${clientSecret}
+  username: ${username}
+  password: ${password}
