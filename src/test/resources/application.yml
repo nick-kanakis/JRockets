@@ -1,0 +1,10 @@
+#TODO: for actual testing replace those values with valid credentials
+env:
+  clientid: foo
+  clientsecret: foo
+  username: foo
+  password: foo
+
+reddit:
+  accestoken:
+    url: https://www.reddit.com/api/v1/access_token

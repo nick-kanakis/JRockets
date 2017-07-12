@@ -1,6 +1,9 @@
 env:
-  useragent: ${userAgent}
   clientid: ${clientId}
   clientsecret: ${clientSecret}
   username: ${username}
   password: ${password}
+
+reddit:
+  accestoken:
+    url: https://www.reddit.com/api/v1/access_token
