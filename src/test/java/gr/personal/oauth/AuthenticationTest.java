@@ -20,10 +20,9 @@ public class AuthenticationTest {
     @Autowired
     Authentication authentication;
 
-    //TODO: provide valid credentials and remove expected Exception.
     @Test(expected = HttpClientErrorException.class)
     public void integrationTest() throws Exception {
-        AccessToken authenticate = authentication.authenticate();
+        AccessToken authenticate = authentication.getAccessToken();
         Assert.assertNotNull(authenticate);
     }
 }

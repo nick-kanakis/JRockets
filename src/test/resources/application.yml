@@ -1,9 +1,9 @@
 #TODO: for actual testing replace those values with valid credentials
 env:
-  clientid: foo
-  clientsecret: foo
-  username: foo
-  password: foo
+  clientid: v4-qsH7vnBfF3w
+  clientsecret: aNaqkMoHWLrVGaloNo0P7Ofql18
+  username: JRockets_bot
+  password: QWaDvrQw
 
 reddit:
   accestoken:

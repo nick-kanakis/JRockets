@@ -1,16 +1,18 @@
 package gr.personal.oauth.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
  * Created by nkanakis on 7/12/2017.
  */
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class OAuthResponse implements Serializable {
 
     private String access_token;
     private String token_type;
     private long expires_in;
-    private String scope;
 
     public String getAccess_token() {
         return access_token;
@@ -34,14 +36,6 @@ public class OAuthResponse implements Serializable {
 
     public void setExpires_in(long expires_in) {
         this.expires_in = expires_in;
-    }
-
-    public String getScope() {
-        return scope;
-    }
-
-    public void setScope(String scope) {
-        this.scope = scope;
     }
 
 }
