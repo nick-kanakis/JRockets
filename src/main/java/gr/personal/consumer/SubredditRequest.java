@@ -1,6 +1,7 @@
 package gr.personal.consumer;
 
 import gr.personal.oauth.Authentication;
+import gr.personal.utils.PropertyReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,7 @@ public class SubredditRequest {
         this.subreddit = subreddit;
         this.parameters = parameters;
         this.authentication = authentication;
-        //TODO: get it from properties (? maybe annotate it with service, in order to use @Value?)
-        this.userAgent = "JRockit 0.1";
+        this.userAgent = PropertyReader.fetchValue("app.useragent");
 
         if (parameters == null) {
             this.parameters = new HashMap<String, String>();
@@ -60,10 +60,20 @@ public class SubredditRequest {
         this(subreddit, new HashMap<String, String>(), authentication);
     }
 
+    /**
+     * Constructs URI for HTTP request to Reddit API.
+     *
+     * @return URI endpoint for reddit HTTP request
+     */
     public String generateURI() {
         return String.format(ENDPOINT_FORMAT, subreddit, ConsumerUtil.transformParameters(parameters));
     }
 
+    /**
+     * Constructs headers necessary for HTTP request to Reddit API.
+     *
+     * @return Http Entity containing Headers for http request to reddit.
+     */
     public HttpEntity generateHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + authentication.getAccessToken().getToken());
