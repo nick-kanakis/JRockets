@@ -8,6 +8,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -16,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by nkanakis on 7/12/2017.
  */
-@Component
+@Service
 public class Authentication {
 
     private AccessToken token;
@@ -32,6 +33,8 @@ public class Authentication {
     private String PASSWORD;
     @Value("${reddit.accestoken.url}")
     private String tokenUrl;
+    @Value("{app.useragent}")
+    private String userAgent;
 
     public Authentication() {
         restTemplate = new RestTemplate();
@@ -56,7 +59,7 @@ public class Authentication {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Basic "+authorizationValue);
-        headers.add("User-agent", "JRockit 0.1");
+        headers.add("User-agent", userAgent);
 
         MultiValueMap<String, String> mvm = new LinkedMultiValueMap<String, String>();
         mvm.add("username",USERNAME);

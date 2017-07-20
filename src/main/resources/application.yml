@@ -7,3 +7,6 @@ env:
 reddit:
   accestoken:
     url: https://www.reddit.com/api/v1/access_token
+
+app:
+  useragent: JRockit 0.1
