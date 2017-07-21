@@ -10,12 +10,24 @@ public class Thing {
     protected final String id;
     protected final String fullName;
 
-    public Thing( String fullName) {
+    public Thing(String fullName) {
         Assert.isTrue(fullName.contains("_"),"Fullnames must contain an underscore");
         this.fullName = fullName;
         String[] split = fullName.split("_");
         this.kind = Kind.valueOf(split[0]);
         this.id = split[1];;
+    }
+
+    public Thing(String kind, long idToDecimal){
+        this.kind = Kind.valueOf(kind);
+        this.id = Long.toString(idToDecimal, 36);
+        this.fullName = this.kind + this.id;
+    }
+
+    public Thing(Kind kind, long idToDecimal){
+        this.kind = kind;
+        this.id = Long.toString(idToDecimal, 36);
+        this.fullName = this.kind + "_" + this.id;
     }
 
     /**

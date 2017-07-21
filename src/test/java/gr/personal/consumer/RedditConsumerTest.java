@@ -1,6 +1,5 @@
 package gr.personal.consumer;
 
-import gr.personal.oauth.model.AccessToken;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,32 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class RedditConsumerTest {
 
+    //TODO: Actual check the responses
     @Autowired
     private RedditConsumer redditConsumer;
 
     @Test
-    public void integrationTest() throws Exception {
-        redditConsumer.getFirstModel("all");
+    public void testFetchInitialPost() throws Exception {
+        redditConsumer.fetchInitialPost("all");
+    }
+
+    @Test
+    public void testFetchInitialComment() throws Exception {
+        redditConsumer.fetchInitialComment("all");
+    }
+
+    @Test
+    public void testFetchReversedPosts() throws Exception {
+        redditConsumer.fetchReversedPosts("all");
+    }
+
+    @Test
+    public void testTetchReversedComments() throws Exception {
+        redditConsumer.fetchReversedComments("all");
+    }
+
+    @Test
+    public void testFetchBacklog() throws Exception {
+        redditConsumer.fetchBacklog("t1_dkijto7", 10);
     }
 }

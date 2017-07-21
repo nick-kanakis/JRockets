@@ -1,5 +1,7 @@
 package gr.personal.consumer;
 
+import gr.personal.consumer.request.Request;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -20,9 +22,8 @@ public class HttpClient {
         restTemplate = new RestTemplate();
     }
 
-    public void executeGetRequest(SubredditRequest request){
+    public JSONObject executeGetRequest(Request request){
         ResponseEntity<String> response = restTemplate.exchange(request.generateURI(), HttpMethod.GET , request.generateHttpHeaders(), String.class );
-        //TODO: same it as JSONObject
-        LOGGER.debug(response.getBody());
+        return new JSONObject(response.getBody()).getJSONObject("children");
     }
 }
