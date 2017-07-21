@@ -24,6 +24,6 @@ public class HttpClient {
 
     public JSONObject executeGetRequest(Request request){
         ResponseEntity<String> response = restTemplate.exchange(request.generateURI(), HttpMethod.GET , request.generateHttpHeaders(), String.class );
-        return new JSONObject(response.getBody()).getJSONObject("children");
+        return ConsumerUtil.shortChildrenArray(new JSONObject(response.getBody()).getJSONObject("data"));
     }
 }

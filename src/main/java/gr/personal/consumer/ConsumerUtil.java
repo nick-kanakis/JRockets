@@ -2,16 +2,16 @@ package gr.personal.consumer;
 
 import gr.personal.consumer.model.Kind;
 import gr.personal.consumer.model.Thing;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -73,4 +73,44 @@ public class ConsumerUtil {
         String commaSeparattedFullnames = things.stream().map(t -> t.getFullName()).collect(Collectors.joining(","));
         return commaSeparattedFullnames;
     }
+
+    /**
+     * Sometimes Reddit models are not in the right order. Sort them by ascending ID (oldest to newest)
+     * @param data
+     * @return
+     */
+    public static JSONObject shortChildrenArray(JSONObject data){
+
+        JSONArray unsortedChildren = data.getJSONArray("children");
+        JSONArray sortedChildren = new JSONArray();
+        List<JSONObject> unsortedChildrenList = new ArrayList<>();
+
+
+        for (int i = 0; i < unsortedChildren.length(); i++) {
+            unsortedChildrenList.add(unsortedChildren.getJSONObject(i));
+        }
+
+        unsortedChildrenList.sort((o1, o2) -> {
+            String valA = new String();
+            String valB = new String();
+
+            try {
+                JSONObject data1 = (JSONObject) o1.get("data");
+                valA = data1.getString("id");
+                JSONObject data2 = (JSONObject) o2.get("data");
+                valB = data2.getString("id");
+            }
+            catch (JSONException e) {
+                logger.warn("Error during shorting of children", e);
+            }
+            return valA.compareTo(valB);
+        });
+
+        for (int i = 0; i < unsortedChildren.length(); i++) {
+            sortedChildren.put(unsortedChildren.get(i));
+        }
+        data.put("children", sortedChildren);
+        return data;
+    }
+
 }
