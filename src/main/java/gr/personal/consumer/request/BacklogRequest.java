@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class BacklogRequest extends Request {
     private static final Logger LOGGER = LoggerFactory.getLogger(BacklogRequest.class);
-    private static final String ENDPOINT_FORMAT = "https://oauth.reddit.com/api/info?%";
+    private static final String ENDPOINT_FORMAT = "https://oauth.reddit.com/api/info?%s";
 
     public BacklogRequest( Map<String, String> parameters, long limit, Authentication authentication, String fullnames) {
         super(null, parameters, limit, authentication);

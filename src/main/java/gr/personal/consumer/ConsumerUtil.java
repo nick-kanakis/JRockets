@@ -40,11 +40,6 @@ public class ConsumerUtil {
             }
 
             String value = keyValueParameters.get(key);
-                try {
-                    value = URLEncoder.encode(value, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    logger.warn("Value cannot be encoded to URL parameter", e);
-                }
             // Add key-value pair
             parameters = parameters.concat(key + "=" + value);
         }

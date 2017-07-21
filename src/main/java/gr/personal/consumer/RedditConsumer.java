@@ -22,12 +22,12 @@ public class RedditConsumer {
     /**
      *  Retrieve the first post for specified subreddit.
      *
-     * @param subreddit: subreddit to retrieve latest model from.
+     * @param subreddit : subreddit to retrieve latest model from.
      * @return (Reddit models) single child object
      */
-    public void fetchInitialPost(String subreddit){
+    public JSONObject fetchInitialPost(String subreddit){
         Request request = new PostRequest(subreddit, 1, authentication);
-        JSONObject children = client.executeGetRequest(request);
+        return client.executeGetRequest(request);
     }
 
     /**
@@ -74,10 +74,9 @@ public class RedditConsumer {
      * @param length:
      * @return (Reddit models) children
      */
-
     public JSONObject fetchBacklog(String initialFullname, long length){
         String commaSeparatedFullnames = ConsumerUtil.transformCommaSeparatedFullnames(initialFullname, length);
-        Request request = new BacklogRequest( authentication, commaSeparatedFullnames);
+        Request request = new BacklogRequest(authentication, commaSeparatedFullnames);
         return client.executeGetRequest(request);
     }
 }

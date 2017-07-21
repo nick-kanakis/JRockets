@@ -1,5 +1,8 @@
 package gr.personal.consumer;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +23,58 @@ public class RedditConsumerTest {
 
     @Test
     public void testFetchInitialPost() throws Exception {
-        redditConsumer.fetchInitialPost("all");
+        JSONObject data = redditConsumer.fetchInitialPost("all");
+        Assert.assertTrue(data.has("children"));
+        JSONArray children = data.getJSONArray("children");
+        Assert.assertFalse(children.isNull(0));
+        JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
+        Assert.assertNotNull(innerData.get("id"));
     }
 
     @Test
     public void testFetchInitialComment() throws Exception {
-        redditConsumer.fetchInitialComment("all");
+        JSONObject data =  redditConsumer.fetchInitialComment("all");
+        Assert.assertTrue(data.has("children"));
+        JSONArray children = data.getJSONArray("children");
+        Assert.assertFalse(children.isNull(0));
+        JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
+        Assert.assertNotNull(innerData.get("id"));
+
     }
 
     @Test
     public void testFetchReversedPosts() throws Exception {
-        redditConsumer.fetchReversedPosts("all");
+        JSONObject data =  redditConsumer.fetchReversedPosts("all");
+        Assert.assertTrue(data.has("children"));
+        JSONArray children = data.getJSONArray("children");
+        Assert.assertFalse(children.isNull(99));
+        JSONObject innerData =  children.getJSONObject(99).getJSONObject("data");
+        Assert.assertNotNull(innerData.get("id"));
     }
 
     @Test
     public void testTetchReversedComments() throws Exception {
-        redditConsumer.fetchReversedComments("all");
+        JSONObject data =  redditConsumer.fetchReversedComments("all");
+        Assert.assertTrue(data.has("children"));
+        JSONArray children = data.getJSONArray("children");
+        Assert.assertFalse(children.isNull(99));
+        JSONObject innerData =  children.getJSONObject(99).getJSONObject("data");
+        Assert.assertNotNull(innerData.get("id"));
     }
 
     @Test
     public void testFetchBacklog() throws Exception {
-        redditConsumer.fetchBacklog("t1_dkijto7", 10);
+        JSONObject data =  redditConsumer.fetchBacklog("t1_dkijto7", 2);
+        Assert.assertTrue(data.has("children"));
+        JSONArray children = data.getJSONArray("children");
+
+        Assert.assertFalse(children.isNull(0));
+        JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
+        Assert.assertEquals("dkijto8", innerData.get("id"));
+
+        Assert.assertFalse(children.isNull(1));
+        JSONObject innerData2 =  children.getJSONObject(1).getJSONObject("data");
+        Assert.assertEquals("dkijto9", innerData2.get("id"));
+
     }
 }
