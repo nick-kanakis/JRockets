@@ -15,9 +15,7 @@ public class PropertyReader {
 
         try {
             input = new FileInputStream(file);
-            // load a properties file
             prop.load(input);
-            // get the property value and print it out
             return prop.getProperty(key);
 
         } catch (IOException ex) {

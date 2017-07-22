@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by nkanakis on 7/21/2017.
  */
-public abstract class Request {
+public abstract class RedditRequest {
 
     private static final long MAX_MODELS_LIMIT = 100;
 
@@ -20,7 +20,7 @@ public abstract class Request {
     protected String subreddit;
     protected Map<String, String> parameters;
 
-    public Request(String subreddit, Map<String, String> parameters, long limit, Authentication authentication) {
+    public RedditRequest(String subreddit, Map<String, String> parameters, long limit, Authentication authentication) {
         this.subreddit = subreddit;
         this.parameters = parameters;
         this.authentication = authentication;
@@ -35,15 +35,15 @@ public abstract class Request {
         this.parameters.put("limit", String.valueOf(limit));
     }
 
-    public Request(String subreddit, Map<String, String> parameters, Authentication authentication) {
+    public RedditRequest(String subreddit, Map<String, String> parameters, Authentication authentication) {
         this(subreddit, parameters, MAX_MODELS_LIMIT, authentication);
     }
 
-    public Request(String subreddit, long limit, Authentication authentication) {
+    public RedditRequest(String subreddit, long limit, Authentication authentication) {
         this(subreddit, new HashMap<String, String>(), limit, authentication);
     }
 
-    public Request(String subreddit, Authentication authentication) {
+    public RedditRequest(String subreddit, Authentication authentication) {
         this(subreddit, new HashMap<String, String>(), authentication);
     }
 

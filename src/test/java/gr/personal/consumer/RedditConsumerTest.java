@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class RedditConsumerTest {
 
-    //TODO: Actual check the responses
     @Autowired
     private RedditConsumer redditConsumer;
 
@@ -63,10 +62,27 @@ public class RedditConsumerTest {
     }
 
     @Test
-    public void testFetchBacklog() throws Exception {
-        JSONObject data =  redditConsumer.fetchBacklog("t1_dkijto7", 2);
+    public void testFetchFullnames() throws Exception {
+        JSONObject data =  redditConsumer.fetchFullnames("t1_dkijto7", 2);
         Assert.assertTrue(data.has("children"));
         JSONArray children = data.getJSONArray("children");
+
+        Assert.assertFalse(children.isNull(0));
+        JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
+        Assert.assertEquals("dkijto8", innerData.get("id"));
+
+        Assert.assertFalse(children.isNull(1));
+        JSONObject innerData2 =  children.getJSONObject(1).getJSONObject("data");
+        Assert.assertEquals("dkijto9", innerData2.get("id"));
+
+    }
+
+    @Test
+    public void testFetchForward() throws Exception {
+        JSONObject data =  redditConsumer.fetchForward("t1_dkijto7");
+        Assert.assertTrue(data.has("children"));
+        JSONArray children = data.getJSONArray("children");
+        Assert.assertFalse(children.isNull(99));
 
         Assert.assertFalse(children.isNull(0));
         JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");

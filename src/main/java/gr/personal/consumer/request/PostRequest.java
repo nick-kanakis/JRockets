@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by nkanakis on 7/13/2017.
  */
-public class PostRequest extends Request {
+public class PostRequest extends RedditRequest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostRequest.class);
     private static final String ENDPOINT_FORMAT = "https://oauth.reddit.com/r/%s/new.json?%s";
 

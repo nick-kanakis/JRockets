@@ -5,13 +5,12 @@ import gr.personal.oauth.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by nkanakis on 7/21/2017.
  */
-public class CommentRequest extends Request {
+public class CommentRequest extends RedditRequest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommentRequest.class);
     private static final String ENDPOINT_FORMAT = "https://oauth.reddit.com/r/%s/comments.json?%s";

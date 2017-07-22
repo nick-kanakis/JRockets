@@ -1,9 +1,9 @@
 package gr.personal.consumer;
 
-import gr.personal.consumer.request.BacklogRequest;
+import gr.personal.consumer.request.FullnamesRequest;
 import gr.personal.consumer.request.CommentRequest;
 import gr.personal.consumer.request.PostRequest;
-import gr.personal.consumer.request.Request;
+import gr.personal.consumer.request.RedditRequest;
 import gr.personal.oauth.Authentication;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedditConsumer {
     @Autowired
-    private HttpClient client;
+    private RestClient client;
     @Autowired
     private Authentication authentication;
 
@@ -26,8 +26,8 @@ public class RedditConsumer {
      * @return (Reddit models) single child object
      */
     public JSONObject fetchInitialPost(String subreddit){
-        Request request = new PostRequest(subreddit, 1, authentication);
-        return client.executeGetRequest(request);
+        RedditRequest request = new PostRequest(subreddit, 1, authentication);
+        return client.executeGetRequestWithDelayPolicy(request);
     }
 
     /**
@@ -37,8 +37,8 @@ public class RedditConsumer {
      * @return (Reddit models) single child object
      */
     public JSONObject fetchInitialComment(String subreddit){
-        Request request = new CommentRequest(subreddit, 1, authentication);
-        return client.executeGetRequest(request);
+        RedditRequest request = new CommentRequest(subreddit, 1, authentication);
+        return client.executeGetRequestWithDelayPolicy(request);
     }
 
     /**
@@ -48,8 +48,8 @@ public class RedditConsumer {
      * @return (Reddit models) children
      */
     public JSONObject fetchReversedPosts(String subreddit){
-        Request request = new PostRequest(subreddit, authentication);
-        return client.executeGetRequest(request);
+        RedditRequest request = new PostRequest(subreddit, authentication);
+        return client.executeGetRequestWithDelayPolicy(request);
     }
 
     /**
@@ -59,8 +59,8 @@ public class RedditConsumer {
      * @return (Reddit models) children
      */
     public JSONObject fetchReversedComments(String subreddit){
-        Request request = new CommentRequest(subreddit, authentication);
-        return client.executeGetRequest(request);
+        RedditRequest request = new CommentRequest(subreddit, authentication);
+        return client.executeGetRequestWithDelayPolicy(request);
     }
 
     /**
@@ -74,9 +74,13 @@ public class RedditConsumer {
      * @param length:
      * @return (Reddit models) children
      */
-    public JSONObject fetchBacklog(String initialFullname, long length){
+    public JSONObject fetchFullnames(String initialFullname, long length){
         String commaSeparatedFullnames = ConsumerUtil.transformCommaSeparatedFullnames(initialFullname, length);
-        Request request = new BacklogRequest(authentication, commaSeparatedFullnames);
-        return client.executeGetRequest(request);
+        RedditRequest request = new FullnamesRequest(authentication, commaSeparatedFullnames);
+        return client.executeGetRequestWithDelayPolicy(request);
+    }
+
+    public JSONObject fetchForward(String initialFullname){
+       return fetchFullnames(initialFullname, 100);
     }
 }
