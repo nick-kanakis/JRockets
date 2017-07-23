@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public abstract class RedditRequest {
 
-    private static final long MAX_MODELS_LIMIT = 100;
+    private static final int MAX_MODELS_LIMIT = 100;
 
     private String userAgent;
     private Authentication authentication;

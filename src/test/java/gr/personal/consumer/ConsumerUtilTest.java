@@ -2,7 +2,6 @@ package gr.personal.consumer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONString;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,13 +31,13 @@ public class ConsumerUtilTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToTransformFullnames() throws Exception {
-        ConsumerUtil.transformCommaSeparatedFullnames("asdasd", 3);
+        ConsumerUtil.transformFullnamesToCommaSeparated("asdasd", 3);
 
     }
 
     @Test
     public void testTransformFullnames() throws Exception {
-        String commaSeparatedFullnames = ConsumerUtil.transformCommaSeparatedFullnames("t1_dkio3q5", 3);
+        String commaSeparatedFullnames = ConsumerUtil.transformFullnamesToCommaSeparated("t1_dkio3q5", 3);
         Assert.assertEquals("t1_dkio3q6,t1_dkio3q7,t1_dkio3q8",commaSeparatedFullnames);
     }
 

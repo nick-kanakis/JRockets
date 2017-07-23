@@ -58,7 +58,7 @@ public class ConsumerUtil {
         return things;
     }
 
-    public static String transformCommaSeparatedFullnames(String initialFullname, int length){
+    public static String transformFullnamesToCommaSeparated(String initialFullname, int length){
         List<Thing> things = transformFullnames(initialFullname, length);
 
         String commaSeparattedFullnames = things.stream().map(t -> t.getFullName()).collect(Collectors.joining(","));
@@ -103,4 +103,14 @@ public class ConsumerUtil {
         return sortedChildren;
     }
 
+    public static JSONArray concatArray(JSONArray... arrs)
+            throws JSONException {
+        JSONArray result = new JSONArray();
+        for (JSONArray arr : arrs) {
+            for (int i = 0; i < arr.length(); i++) {
+                result.put(arr.get(i));
+            }
+        }
+        return result;
+    }
 }

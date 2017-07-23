@@ -1,5 +1,7 @@
 package gr.personal.consumer;
 
+import gr.personal.aggregator.AggregatorUtil;
+import gr.personal.consumer.model.Thing;
 import gr.personal.consumer.request.FullnamesRequest;
 import gr.personal.consumer.request.CommentRequest;
 import gr.personal.consumer.request.PostRequest;
@@ -18,6 +20,7 @@ public class RedditConsumer {
     private RestClient client;
     @Autowired
     private Authentication authentication;
+    private static final int MAX_MODELS_LIMIT = 100;
 
     /**
      * Retrieve the first post for specified subreddit.
@@ -70,21 +73,44 @@ public class RedditConsumer {
      * > t1_dkio3q7
      * > t1_dkio3q8
      * <p>
-     * In case the length is > 100 we break it in chunks of 100 fullnames per request and join them again.
      *
      * @param initialFullname : starting point
      * @param length :
      * @return (Reddit models) children
      */
-    public JSONArray fetchFullnames(String initialFullname, int length) {
+    public JSONArray fetchByFullnames(String initialFullname, int length) {
 
-        String commaSeparatedFullnames = ConsumerUtil.transformCommaSeparatedFullnames(initialFullname, length);
+        String commaSeparatedFullnames = ConsumerUtil.transformFullnamesToCommaSeparated(initialFullname, length);
         RedditRequest request = new FullnamesRequest(authentication, commaSeparatedFullnames);
         return client.executeGetRequestWithDelayPolicy(request);
     }
 
 
     public JSONArray fetchForward(String initialFullname) {
-        return fetchFullnames(initialFullname, 100);
+        return fetchByFullnames(initialFullname, MAX_MODELS_LIMIT);
+    }
+
+    public JSONArray fetchByRange(Thing start, Thing end){
+
+        long initialId2Decimal = Long.parseLong(start.getId(), 36);
+        long finalId2Decimal = Long.parseLong(end.getId(), 36);
+        String startFullname = start.getFullName();
+        JSONArray concatenatedChildren = new JSONArray();
+
+        while(initialId2Decimal < finalId2Decimal){
+            int range = Math.min(MAX_MODELS_LIMIT, Math.toIntExact(finalId2Decimal - initialId2Decimal));
+            JSONArray currentChildren = fetchByFullnames(startFullname, range);
+            String lastFullname = AggregatorUtil.extractLastFullname(currentChildren);
+
+            if(lastFullname== null || lastFullname=="")
+                continue;
+
+            startFullname = lastFullname;
+            initialId2Decimal += range;
+            concatenatedChildren = ConsumerUtil.concatArray(concatenatedChildren, currentChildren);
+        }
+
+        return concatenatedChildren;
+
     }
 }

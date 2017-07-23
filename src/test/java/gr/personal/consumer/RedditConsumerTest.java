@@ -1,5 +1,6 @@
 package gr.personal.consumer;
 
+import gr.personal.consumer.model.Thing;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -55,7 +56,7 @@ public class RedditConsumerTest {
 
     @Test
     public void testFetchFullnames() throws Exception {
-        JSONArray children=  redditConsumer.fetchFullnames("t1_dkijto7", 2);
+        JSONArray children=  redditConsumer.fetchByFullnames("t1_dkijto7", 2);
 
         Assert.assertFalse(children.isNull(0));
         JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
@@ -79,6 +80,14 @@ public class RedditConsumerTest {
         Assert.assertFalse(children.isNull(1));
         JSONObject innerData2 =  children.getJSONObject(1).getJSONObject("data");
         Assert.assertEquals("dkijto9", innerData2.get("id"));
+    }
 
+    @Test
+    public void testFetchByRange() throws Exception{
+
+        JSONArray results = redditConsumer.fetchByRange(new Thing("t1_dkijto7"), new Thing("t1_dkijtts"));
+        Assert.assertTrue(results.length()>200);
+        JSONObject lastModel = results.getJSONObject(results.length() - 1);
+        Assert.assertEquals("t1_dkijtts",lastModel.getJSONObject("data").getString("name") );
     }
 }
