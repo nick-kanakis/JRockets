@@ -61,9 +61,7 @@ public class ConsumerUtilTest {
         mockObject.put("outerKey", "outerValue");
         mockObject.put("children", childrenArray);
 
-        JSONObject sortedObject = ConsumerUtil.shortChildrenArray(mockObject);
-
-        JSONArray children = sortedObject.getJSONArray("children");
+        JSONArray children = ConsumerUtil.shortChildrenArray(mockObject);
 
         List<JSONObject> sortedChildrenList = new ArrayList<>();
 

@@ -17,7 +17,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 public class AggregatorUtilTest {
 
-    JSONObject mockObject;
+    JSONArray mockObject;
     
     @Before
     public void setUp() throws Exception {
@@ -33,9 +33,7 @@ public class AggregatorUtilTest {
             model.put("data", data);
             childrenArray.put(i,model);
         }
-        mockObject = new JSONObject();
-        mockObject.put("outerKey", "outerValue");
-        mockObject.put("children", childrenArray);
+        mockObject =  childrenArray;
     }
 
     @Test
@@ -55,7 +53,7 @@ public class AggregatorUtilTest {
         List<String> results = AggregatorUtil.extractFullnames(mockObject);
         List<String> expectedResult = new ArrayList<>();
 
-        for (int i = 0; i <3 ; i++) {
+        for (int i = 0; i <=3 ; i++) {
             expectedResult.add(String.valueOf(i+1));
         }
         Assert.assertEquals(expectedResult,results);

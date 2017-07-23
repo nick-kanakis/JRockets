@@ -1,6 +1,7 @@
 package gr.personal.consumer;
 
 import gr.personal.consumer.request.RedditRequest;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,10 +30,10 @@ public class RestClient {
      * Executes the http call to Reddit API. It enforces delay policy as described here:
      * https://github.com/reddit/reddit/wiki/API
      *
-     * @param request: Reddit specific request
-     * @return Data object
+     * @param request : Reddit specific request
+     * @return Children JSONArray
      */
-    public JSONObject executeGetRequestWithDelayPolicy(RedditRequest request) {
+    public JSONArray executeGetRequestWithDelayPolicy(RedditRequest request) {
         if (delayInMs > 0) {
             try {
                 Thread.sleep((long) delayInMs);
@@ -57,10 +58,10 @@ public class RestClient {
      * Warning: overusing this method will result in violation or Reddit's API Rules
      * More here: https://github.com/reddit/reddit/wiki/API
      *
-     * @param request: Reddit specific request
+     * @param request : Reddit specific request
      * @return Data object
      */
-    public JSONObject executeGetRequestWithoutDelayPolicy(RedditRequest request) {
+    public JSONArray executeGetRequestWithoutDelayPolicy(RedditRequest request) {
         ResponseEntity<String> response = restTemplate.exchange(request.generateURI(), HttpMethod.GET, request.generateHttpHeaders(), String.class);
         return ConsumerUtil.shortChildrenArray(new JSONObject(response.getBody()).getJSONObject("data"));
     }

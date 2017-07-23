@@ -1,7 +1,7 @@
 package gr.personal.aggregator;
 
+import gr.personal.consumer.model.Thing;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,19 +15,12 @@ import java.util.List;
 public class AggregatorUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(AggregatorUtil.class);
 
-    public static String extractFullname(JSONObject model, int index){
+    public static String extractFullname(JSONArray children, int index){
         if(index<0)
             return "";
-
-        if(!model.has("children")){
-            LOGGER.warn("Model must contain 'children' key");
-            return "";
-        }
-        JSONArray children = model.getJSONArray("children");
         JSONObject innerModel;
 
         innerModel = children.getJSONObject(index);
-
 
         if(!innerModel.has("data")){
             LOGGER.warn("Model must contain 'data' key");
@@ -41,31 +34,39 @@ public class AggregatorUtil {
         return innerData.getString("name");
     }
 
-    public static String extractInitialFilename(JSONObject model){
-        return extractFullname(model, 0);
+    public static String extractInitialFilename(JSONArray children){
+        return extractFullname(children, 0);
     }
 
-    public static String extractLastFullname(JSONObject model){
-        if(!model.has("children")){
-            LOGGER.warn("Model must contain 'children' key");
-            return "";
-        }
-        int lastIndex = model.getJSONArray("children").length() -1;
-        return extractFullname(model, lastIndex);
+    public static String extractLastFullname(JSONArray children){
+
+        int lastIndex = children.length() -1;
+        return extractFullname(children, lastIndex);
+    }
+
+    public static String extractLastId(JSONArray children){
+
+        int lastIndex = children.length() -1;
+        String fullname = extractFullname(children, lastIndex);
+        return new Thing(fullname).getId();
+
     }
 
     //TODO: do i need it?
-    public static List<String> extractFullnames(JSONObject model){
+    public static List<String> extractFullnames(JSONArray children){
         List<String> result = new ArrayList<>();
-        if(!model.has("children")){
-            LOGGER.warn("Model must contain 'children' key");
-            return result;
-        }
-        JSONArray children = model.getJSONArray("children");
+
         for (int i = 0; i <= children.length() -1; i++) {
             JSONObject innerModel = children.getJSONObject(i);
             result.add(innerModel.getJSONObject("data").getString("name"));
         }
         return result;
+    }
+
+    public static JSONArray sliceModel(JSONArray children, int index){
+        for (int i = 0; i < index; i++) {
+            children.remove(i);
+        }
+        return children;
     }
 }

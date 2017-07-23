@@ -5,7 +5,7 @@ import gr.personal.consumer.request.CommentRequest;
 import gr.personal.consumer.request.PostRequest;
 import gr.personal.consumer.request.RedditRequest;
 import gr.personal.oauth.Authentication;
-import org.json.JSONObject;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,23 +20,23 @@ public class RedditConsumer {
     private Authentication authentication;
 
     /**
-     *  Retrieve the first post for specified subreddit.
+     * Retrieve the first post for specified subreddit.
      *
      * @param subreddit : subreddit to retrieve latest model from.
      * @return (Reddit models) single child object
      */
-    public JSONObject fetchInitialPost(String subreddit){
+    public JSONArray fetchInitialPost(String subreddit) {
         RedditRequest request = new PostRequest(subreddit, 1, authentication);
         return client.executeGetRequestWithDelayPolicy(request);
     }
 
     /**
-     *  Retrieve the first comment for specified subreddit.
+     * Retrieve the first comment for specified subreddit.
      *
      * @param subreddit : subreddit to retrieve latest model from.
      * @return (Reddit models) single child object
      */
-    public JSONObject fetchInitialComment(String subreddit){
+    public JSONArray fetchInitialComment(String subreddit) {
         RedditRequest request = new CommentRequest(subreddit, 1, authentication);
         return client.executeGetRequestWithDelayPolicy(request);
     }
@@ -47,7 +47,7 @@ public class RedditConsumer {
      * @param subreddit : subreddit to retrieve latest models from
      * @return (Reddit models) children
      */
-    public JSONObject fetchReversedPosts(String subreddit){
+    public JSONArray fetchReversedPosts(String subreddit) {
         RedditRequest request = new PostRequest(subreddit, authentication);
         return client.executeGetRequestWithDelayPolicy(request);
     }
@@ -58,7 +58,7 @@ public class RedditConsumer {
      * @param subreddit : subreddit to retrieve latest models from.
      * @return (Reddit models) children
      */
-    public JSONObject fetchReversedComments(String subreddit){
+    public JSONArray fetchReversedComments(String subreddit) {
         RedditRequest request = new CommentRequest(subreddit, authentication);
         return client.executeGetRequestWithDelayPolicy(request);
     }
@@ -66,21 +66,25 @@ public class RedditConsumer {
     /**
      * The method is used to retrieve specific range of fullnames. Starting from (but not included initialFullname)
      * and for the next "length" IDs. eg: if initialFullname = t1_dkio3q5 and length = 3 the method will return:
-     *  > t1_dkio3q6
-     *  > t1_dkio3q7
-     *  > t1_dkio3q8
+     * > t1_dkio3q6
+     * > t1_dkio3q7
+     * > t1_dkio3q8
+     * <p>
+     * In case the length is > 100 we break it in chunks of 100 fullnames per request and join them again.
      *
-     * @param initialFullname: starting point
-     * @param length:
+     * @param initialFullname : starting point
+     * @param length :
      * @return (Reddit models) children
      */
-    public JSONObject fetchFullnames(String initialFullname, long length){
+    public JSONArray fetchFullnames(String initialFullname, int length) {
+
         String commaSeparatedFullnames = ConsumerUtil.transformCommaSeparatedFullnames(initialFullname, length);
         RedditRequest request = new FullnamesRequest(authentication, commaSeparatedFullnames);
         return client.executeGetRequestWithDelayPolicy(request);
     }
 
-    public JSONObject fetchForward(String initialFullname){
-       return fetchFullnames(initialFullname, 100);
+
+    public JSONArray fetchForward(String initialFullname) {
+        return fetchFullnames(initialFullname, 100);
     }
 }

@@ -1,16 +1,12 @@
 package gr.personal.consumer;
 
-import gr.personal.consumer.model.Kind;
 import gr.personal.consumer.model.Thing;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class ConsumerUtil {
     private static final Logger logger = LoggerFactory.getLogger(ConsumerUtil.class);
-    private static final long MAX_MODELS_LIMIT = 100;
+    private static final int MAX_MODELS_LIMIT = 100;
     /**
      * Transform mapping to URL key-value parameters (eg: a=1&b=2&c=3).
      *
@@ -47,7 +43,7 @@ public class ConsumerUtil {
         return parameters;
     }
 
-    public static List<Thing> transformFullnames(String initialFullname, long length){
+    public static List<Thing> transformFullnames(String initialFullname, int length){
         if(length>MAX_MODELS_LIMIT) {
             length = MAX_MODELS_LIMIT;
         }
@@ -62,7 +58,7 @@ public class ConsumerUtil {
         return things;
     }
 
-    public static String transformCommaSeparatedFullnames(String initialFullname, long length){
+    public static String transformCommaSeparatedFullnames(String initialFullname, int length){
         List<Thing> things = transformFullnames(initialFullname, length);
 
         String commaSeparattedFullnames = things.stream().map(t -> t.getFullName()).collect(Collectors.joining(","));
@@ -74,7 +70,7 @@ public class ConsumerUtil {
      * @param data
      * @return
      */
-    public static JSONObject shortChildrenArray(JSONObject data){
+    public static JSONArray shortChildrenArray(JSONObject data){
 
         JSONArray unsortedChildren = data.getJSONArray("children");
         JSONArray sortedChildren = new JSONArray();
@@ -104,8 +100,7 @@ public class ConsumerUtil {
         for (int i = 0; i < unsortedChildren.length(); i++) {
             sortedChildren.put(unsortedChildren.get(i));
         }
-        data.put("children", sortedChildren);
-        return data;
+        return sortedChildren;
     }
 
 }

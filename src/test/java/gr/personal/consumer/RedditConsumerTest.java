@@ -22,9 +22,7 @@ public class RedditConsumerTest {
 
     @Test
     public void testFetchInitialPost() throws Exception {
-        JSONObject data = redditConsumer.fetchInitialPost("all");
-        Assert.assertTrue(data.has("children"));
-        JSONArray children = data.getJSONArray("children");
+        JSONArray children = redditConsumer.fetchInitialPost("all");
         Assert.assertFalse(children.isNull(0));
         JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
         Assert.assertNotNull(innerData.get("id"));
@@ -32,9 +30,7 @@ public class RedditConsumerTest {
 
     @Test
     public void testFetchInitialComment() throws Exception {
-        JSONObject data =  redditConsumer.fetchInitialComment("all");
-        Assert.assertTrue(data.has("children"));
-        JSONArray children = data.getJSONArray("children");
+        JSONArray children =  redditConsumer.fetchInitialComment("all");
         Assert.assertFalse(children.isNull(0));
         JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
         Assert.assertNotNull(innerData.get("id"));
@@ -43,9 +39,7 @@ public class RedditConsumerTest {
 
     @Test
     public void testFetchReversedPosts() throws Exception {
-        JSONObject data =  redditConsumer.fetchReversedPosts("all");
-        Assert.assertTrue(data.has("children"));
-        JSONArray children = data.getJSONArray("children");
+        JSONArray children =  redditConsumer.fetchReversedPosts("all");
         Assert.assertFalse(children.isNull(99));
         JSONObject innerData =  children.getJSONObject(99).getJSONObject("data");
         Assert.assertNotNull(innerData.get("id"));
@@ -53,9 +47,7 @@ public class RedditConsumerTest {
 
     @Test
     public void testTetchReversedComments() throws Exception {
-        JSONObject data =  redditConsumer.fetchReversedComments("all");
-        Assert.assertTrue(data.has("children"));
-        JSONArray children = data.getJSONArray("children");
+        JSONArray children =  redditConsumer.fetchReversedComments("all");
         Assert.assertFalse(children.isNull(99));
         JSONObject innerData =  children.getJSONObject(99).getJSONObject("data");
         Assert.assertNotNull(innerData.get("id"));
@@ -63,9 +55,7 @@ public class RedditConsumerTest {
 
     @Test
     public void testFetchFullnames() throws Exception {
-        JSONObject data =  redditConsumer.fetchFullnames("t1_dkijto7", 2);
-        Assert.assertTrue(data.has("children"));
-        JSONArray children = data.getJSONArray("children");
+        JSONArray children=  redditConsumer.fetchFullnames("t1_dkijto7", 2);
 
         Assert.assertFalse(children.isNull(0));
         JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
@@ -79,9 +69,7 @@ public class RedditConsumerTest {
 
     @Test
     public void testFetchForward() throws Exception {
-        JSONObject data =  redditConsumer.fetchForward("t1_dkijto7");
-        Assert.assertTrue(data.has("children"));
-        JSONArray children = data.getJSONArray("children");
+        JSONArray children =  redditConsumer.fetchForward("t1_dkijto7");
         Assert.assertFalse(children.isNull(99));
 
         Assert.assertFalse(children.isNull(0));
