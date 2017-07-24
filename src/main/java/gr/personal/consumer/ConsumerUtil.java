@@ -81,7 +81,7 @@ public class ConsumerUtil {
             unsortedChildrenList.add(unsortedChildren.getJSONObject(i));
         }
 
-        unsortedChildrenList.sort((o1, o2) -> {
+        List<JSONObject> sortedChildrenList = unsortedChildrenList.stream().sorted((o1, o2) -> {
             String valA = new String();
             String valB = new String();
 
@@ -90,15 +90,14 @@ public class ConsumerUtil {
                 valA = data1.getString("id");
                 JSONObject data2 = (JSONObject) o2.get("data");
                 valB = data2.getString("id");
-            }
-            catch (JSONException e) {
+            } catch (JSONException e) {
                 logger.warn("Error during shorting of children", e);
             }
             return valA.compareTo(valB);
-        });
+        }).collect(Collectors.toList());
 
-        for (int i = 0; i < unsortedChildren.length(); i++) {
-            sortedChildren.put(unsortedChildren.get(i));
+        for (int i = 0; i < sortedChildrenList.size(); i++) {
+            sortedChildren.put(sortedChildrenList.get(i));
         }
         return sortedChildren;
     }

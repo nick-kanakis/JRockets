@@ -1,6 +1,8 @@
 package gr.personal.aggregator;
 
+import gr.personal.consumer.ConsumerUtil;
 import gr.personal.consumer.RedditConsumer;
+import gr.personal.consumer.model.Thing;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,25 +23,25 @@ public class PostAggregator {
         //TODO: replace loop with a Executor.
         for (int i = 0; i < 100; i++) {
             JSONArray result;
-            if(lastFullname == null)
+
+            if (lastFullname == null)
                 result = redditConsumer.fetchInitialPost(subreddit);
             else
                 result = redditConsumer.fetchForward(lastFullname);
 
             String tmpLastFullname = AggregatorUtil.extractLastFullname(result);
 
-            if(tmpLastFullname == null || tmpLastFullname == "" )
+            if (tmpLastFullname == null || tmpLastFullname == "")
                 continue;
 
             lastFullname = tmpLastFullname;
             enqueue(result);
         }
-
     }
 
     //TODO: Actually enqueue the result
     private void enqueue(JSONArray result) {
-        for (String tmp :AggregatorUtil.extractFullnames(result) ) {
+        for (String tmp : AggregatorUtil.extractFullnames(result)) {
             System.out.println(tmp);
         }
     }

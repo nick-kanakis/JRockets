@@ -26,10 +26,18 @@ public class CommentAggregator {
         //TODO: replace loop with a Executor.
         for (int i = 0; i < 100; i++) {
             JSONArray newModels;
-            if (lastEnqueuedId == "")
+
+            if (lastEnqueuedId == "") {
                 newModels = redditConsumer.fetchInitialComment(subreddit);
-            else
-                newModels = redditConsumer.fetchReversedComments(subreddit);
+                JSONObject data = newModels.getJSONObject(0).getJSONObject("data");
+                lastEnqueuedId = data.getString("id");
+                lastEnqueuedFullname = data.getString("name");
+                enqueue(newModels);
+                continue;
+            }
+
+            newModels = redditConsumer.fetchReversedComments(subreddit);
+
 
             String newModelsLatestId = AggregatorUtil.extractLastId(newModels);
 
@@ -37,7 +45,7 @@ public class CommentAggregator {
              * If there are no new comments the last processed id will be the same as the currently received last id.
              * In that case we do not want to enqueue again the models.
              */
-            if(Long.parseLong(newModelsLatestId, 36)<= Long.parseLong(lastEnqueuedId, 36))
+            if (Long.parseLong(newModelsLatestId, 36) <= Long.parseLong(lastEnqueuedId, 36))
                 continue;
 
             /**
@@ -45,11 +53,11 @@ public class CommentAggregator {
              * [index+1, models.lenght] and enqueue the result. This is done to avoid already processed
              * models being processed again.
              */
-            for (int index = 0; index <= newModels.length() -1; index++) {
+            for (int index = 0; index <= newModels.length() - 1; index++) {
                 JSONObject innerModel = newModels.getJSONObject(index);
                 String currentId = innerModel.getJSONObject("data").getString("id");
 
-                if(currentId == lastEnqueuedId){
+                if (currentId == lastEnqueuedId) {
                     lastEnqueuedId = currentId;
                     lastEnqueuedFullname = innerModel.getJSONObject("data").getString("name");
                     enqueue(AggregatorUtil.splitArray(newModels, index)[1]);
@@ -65,9 +73,8 @@ public class CommentAggregator {
             Thing firstThing = new Thing(AggregatorUtil.increaseByOne(firstFullnameOfNewModels));
             Thing lastThing = new Thing(AggregatorUtil.decreaseByOne(lastEnqueuedFullname));
             JSONArray backlogModels = redditConsumer.fetchByRange(firstThing, lastThing);
-            enqueue(ConsumerUtil.concatArray(backlogModels,newModels));
+            enqueue(ConsumerUtil.concatArray(backlogModels, newModels));
         }
-
     }
 
     //TODO: Actually enqueue the result
