@@ -17,6 +17,6 @@ public class PostAggregatorTest {
 
     @Test
     public void testAggregate() throws Exception {
-        postAggregator.forwardAggregate("all");
+       postAggregator.run();
     }
 }

@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
  * Created by Nick Kanakis on 22/7/2017.
  */
 @Service
-public class CommentAggregator {
+public class CommentAggregator implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommentAggregator.class);
 
     @Autowired
     private RedditConsumer redditConsumer;
 
-    public void reversedAggregate(String subreddit) {
+    private void reversedAggregate(String subreddit) {
         String lastEnqueuedId = "";
         String lastEnqueuedFullname = "";
         //TODO: replace loop with a Executor.
@@ -82,5 +82,11 @@ public class CommentAggregator {
         for (String tmp : AggregatorUtil.extractFullnames(result)) {
             System.out.println(tmp);
         }
+    }
+
+    @Override
+    public void run() {
+        //todo: make subreddit configurable
+        reversedAggregate("all");
     }
 }

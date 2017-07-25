@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 /**
  * Created by Nick Kanakis on 22/7/2017.
  */
-@Service
-public class PostAggregator {
+
+public class PostAggregator implements Runnable{
 
     @Autowired
     private RedditConsumer redditConsumer;
 
-    public void forwardAggregate(String subreddit) {
+    private void forwardAggregate(String subreddit) {
         String lastFullname = null;
 
         //TODO: replace loop with a Executor.
@@ -44,5 +44,11 @@ public class PostAggregator {
         for (String tmp : AggregatorUtil.extractFullnames(result)) {
             System.out.println(tmp);
         }
+    }
+
+    @Override
+    public void run() {
+        //todo: make subreddit configurable
+        forwardAggregate("all");
     }
 }

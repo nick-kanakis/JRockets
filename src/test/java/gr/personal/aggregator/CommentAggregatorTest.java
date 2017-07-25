@@ -17,6 +17,6 @@ public class CommentAggregatorTest {
 
     @Test
     public void testAggregate() throws Exception {
-        commentAggregator.reversedAggregate("all");
+        commentAggregator.run();
     }
 }
