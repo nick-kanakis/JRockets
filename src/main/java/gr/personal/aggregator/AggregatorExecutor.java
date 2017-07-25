@@ -11,12 +11,12 @@ import java.util.concurrent.Executors;
  */
 @Component
 public class AggregatorExecutor {
-    //TODO: remove it and replace it with a factory bean.
     @Autowired
     private PostAggregator postAggregator;
 
     public void aggregate(){
         ExecutorService executorService = Executors.newFixedThreadPool(1);
+        //todo: add commentAggregator
         executorService.execute(postAggregator);
 
     }
