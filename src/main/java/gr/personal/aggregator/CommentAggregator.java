@@ -10,6 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
 /**
  * Created by Nick Kanakis on 22/7/2017.
  */
@@ -35,7 +39,24 @@ public class CommentAggregator {
 
         lastFullname = tmpLastFullname;
         enqueue(result);
+    }
 
+    //TODO: Actually enqueue the result
+    private void enqueue(JSONArray result) {
+        PrintWriter writer =null;
+        try {
+            writer = new PrintWriter("comments.txt", "UTF-8");
+            for (String tmp : AggregatorUtil.extractFullnames(result)) {
+                writer.println("COMMENT: CurrentTread: " + Thread.currentThread().getName() + ", ID: " + tmp);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        finally {
+            writer.close();
+        }
     }
 
 //TODO: fix reversed Aggregator if possible
@@ -93,10 +114,4 @@ public class CommentAggregator {
 //        JSONArray backlogModels = redditConsumer.fetchByRange(start, end);
 //        enqueue(ConsumerUtil.concatArray(backlogModels, newModels));
 //    }
-
-    //TODO: Actually enqueue the result
-    private void enqueue(JSONArray result) {
-        for (String tmp : AggregatorUtil.extractFullnames(result)) {
-            System.out.println("COMMENT: CurrenTread: " + Thread.currentThread().getName() + ", ID: " + tmp);        }
-    }
 }

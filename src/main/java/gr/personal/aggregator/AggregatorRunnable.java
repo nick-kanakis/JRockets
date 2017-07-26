@@ -15,7 +15,7 @@ public class AggregatorRunnable implements Runnable {
 
     @Override
     public void run() {
-        while(true){
+        while (true) {
             commentAggregator.forwardAggregate(SUBREDDIT);
             postAggregator.forwardAggregate(SUBREDDIT);
         }
