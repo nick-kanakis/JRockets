@@ -5,18 +5,19 @@ import gr.personal.consumer.RedditConsumer;
 import gr.personal.consumer.model.Thing;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 /**
  * Created by Nick Kanakis on 22/7/2017.
  */
 @Service
 public class PostAggregator {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostAggregator.class);
 
     @Autowired
     private RedditConsumer redditConsumer;
@@ -36,24 +37,23 @@ public class PostAggregator {
 
         lastFullname = tmpLastFullname;
         enqueue(result);
-
     }
 
     //TODO: Actually enqueue the result
     private void enqueue(JSONArray result) {
-        PrintWriter writer =null;
+        File log = new File("posts.txt");
+        PrintWriter out = null;
         try {
-            writer = new PrintWriter("posts.txt", "UTF-8");
-            for (String tmp : AggregatorUtil.extractFullnames(result)) {
-                writer.println("POST: CurrentTread: " + Thread.currentThread().getName() + ", ID: " + tmp);
+            if (out == null)
+                out = new PrintWriter(new FileWriter(log, true));
+            for (String id : AggregatorUtil.extractIds(result)) {
+                out.println(id);
+                LOGGER.info("POST: CurrentTread: " + Thread.currentThread().getName() + ", ID: " + id);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        finally {
-            writer.close();
+        } catch (IOException e) {
+
+        } finally {
+            out.close();
         }
     }
-    }
+}

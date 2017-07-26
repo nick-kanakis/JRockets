@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 /**
  * Created by Nick Kanakis on 22/7/2017.
@@ -43,19 +41,19 @@ public class CommentAggregator {
 
     //TODO: Actually enqueue the result
     private void enqueue(JSONArray result) {
-        PrintWriter writer =null;
+        File log = new File("comments.txt");
+        PrintWriter out = null;
         try {
-            writer = new PrintWriter("comments.txt", "UTF-8");
-            for (String tmp : AggregatorUtil.extractFullnames(result)) {
-                writer.println("COMMENT: CurrentTread: " + Thread.currentThread().getName() + ", ID: " + tmp);
+            if(out == null)
+                out = new PrintWriter(new FileWriter(log, true));
+            for (String id : AggregatorUtil.extractIds(result)) {
+                out.println(id);
+                LOGGER.info("COMMENT: CurrentTread: " + Thread.currentThread().getName() + ", ID: " + id);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        finally {
-            writer.close();
+        } catch (IOException e) {
+
+        } finally {
+            out.close();
         }
     }
 

@@ -72,6 +72,16 @@ public class AggregatorUtil {
         return result;
     }
 
+    public static List<String> extractIds(JSONArray children){
+        List<String> result = new ArrayList<>();
+
+        for (int i = 0; i <= children.length() -1; i++) {
+            JSONObject innerModel = children.getJSONObject(i);
+            result.add(innerModel.getJSONObject("data").getString("id"));
+        }
+        return result;
+    }
+
     /**
      * Spits a JSONArray into 2 pieces.
      *
