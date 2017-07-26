@@ -33,7 +33,6 @@ public class PropertyReader {
     }
 
     public static String fetchValue(String key) {
-        //TODO: get it from classpath
         return fetchValue("src/main/resources/application.properties", key);
     }
 }
