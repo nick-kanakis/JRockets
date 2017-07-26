@@ -7,16 +7,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * Created by Nick Kanakis on 23/7/2017.
+ * Created by nkanakis on 7/26/2017.
  */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PostAggregatorTest {
+public class AggregatorRunnableTest {
+
     @Autowired
-    private PostAggregator postAggregator;
+    private AggregatorRunnable aggregatorRunnable;
 
     @Test
-    public void testAggregate() throws Exception {
-        //TODO: add test
+    public void testRun() throws Exception {
+        //todo add test cases
+        aggregatorRunnable.run();
     }
 }

@@ -14,79 +14,89 @@ import org.springframework.stereotype.Service;
  * Created by Nick Kanakis on 22/7/2017.
  */
 @Service
-public class CommentAggregator implements Runnable {
+public class CommentAggregator {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommentAggregator.class);
 
     @Autowired
     private RedditConsumer redditConsumer;
+    private static String lastFullname = null;
 
-    private void reversedAggregate(String subreddit) {
-        String lastEnqueuedId = "";
-        String lastEnqueuedFullname = "";
-        //TODO: replace loop with a Executor.
-        for (int i = 0; i < 100; i++) {
-            JSONArray newModels;
+    public void forwardAggregate(String subreddit) {
+        JSONArray result;
+        if (lastFullname == null)
+            result = redditConsumer.fetchInitialComment(subreddit);
+        else
+            result = redditConsumer.fetchForward(lastFullname);
 
-            if (lastEnqueuedId == "") {
-                newModels = redditConsumer.fetchInitialComment(subreddit);
-                JSONObject data = newModels.getJSONObject(0).getJSONObject("data");
-                lastEnqueuedId = data.getString("id");
-                lastEnqueuedFullname = data.getString("name");
-                enqueue(newModels);
-                continue;
-            }
+        String tmpLastFullname = AggregatorUtil.extractLastFullname(result);
 
-            newModels = redditConsumer.fetchReversedComments(subreddit);
+        if (tmpLastFullname == null || tmpLastFullname == "")
+            return;
 
+        lastFullname = tmpLastFullname;
+        enqueue(result);
 
-            String newModelsLatestId = AggregatorUtil.extractLastId(newModels);
-
-            /**
-             * If there are no new comments the last processed id will be the same as the currently received last id.
-             * In that case we do not want to enqueue again the models.
-             */
-            if (Long.parseLong(newModelsLatestId, 36) <= Long.parseLong(lastEnqueuedId, 36))
-                continue;
-
-            /**
-             * Find the most recently processed model in the list of models, then slice the list
-             * [index+1, models.lenght] and enqueue the result. This is done to avoid already processed
-             * models being processed again.
-             */
-            for (int index = 0; index <= newModels.length() - 1; index++) {
-                JSONObject innerModel = newModels.getJSONObject(index);
-                String currentId = innerModel.getJSONObject("data").getString("id");
-
-                if (currentId == lastEnqueuedId) {
-                    lastEnqueuedId = currentId;
-                    lastEnqueuedFullname = innerModel.getJSONObject("data").getString("name");
-                    enqueue(AggregatorUtil.splitArray(newModels, index)[1]);
-                    break;
-                }
-            }
-
-            /**
-             * There is a possibility that the last processed Id is not in the list of models that was received.
-             * In that case there is a gap and we need to patch it with a backlog request.
-             */
-            String firstFullnameOfNewModels = AggregatorUtil.extractLastFullname(newModels);
-            Thing firstThing = new Thing(AggregatorUtil.increaseByOne(firstFullnameOfNewModels));
-            Thing lastThing = new Thing(AggregatorUtil.decreaseByOne(lastEnqueuedFullname));
-            JSONArray backlogModels = redditConsumer.fetchByRange(firstThing, lastThing);
-            enqueue(ConsumerUtil.concatArray(backlogModels, newModels));
-        }
     }
+
+//TODO: fix reversed Aggregator if possible
+//    public void reversedAggregate(String subreddit) {
+//
+//        JSONArray newModels;
+//
+//        if (lastEnqueuedId == "") {
+//            newModels = redditConsumer.fetchInitialComment(subreddit);
+//            lastEnqueuedId = AggregatorUtil.extractFirstId(newModels);
+//            lastEnqueuedFullname = AggregatorUtil.extractFirstFullname(newModels);
+//            enqueue(newModels);
+//            return;
+//        }
+//
+//        newModels = redditConsumer.fetchReversedComments(subreddit);
+//        String newModelsLatestId = AggregatorUtil.extractLastId(newModels);
+//
+//        /**
+//         * If there are no new comments the last processed id will be the same as the currently received last id.
+//         * In that case we do not want to enqueue again the models.
+//         */
+//        long currentLatestIdDec = Long.parseLong(newModelsLatestId, 36);
+//        long lastEnquedIdDec = Long.parseLong(lastEnqueuedId, 36);
+//        if ( currentLatestIdDec <= lastEnquedIdDec) {
+//            LOGGER.debug("No new models, currentLatestId:{}, lastEnqueueId", currentLatestIdDec, lastEnquedIdDec);
+//            return;
+//        }
+//
+//        /**
+//         * Find the most recently processed model in the list of models, then slice the list
+//         * [index+1, models.lenght] and enqueue the result. This is done to avoid already processed
+//         * models being processed again.
+//         */
+//        for (int index = 0; index <= newModels.length() - 1; index++) {
+//            JSONObject innerModel = newModels.getJSONObject(index);
+//            String currentId = innerModel.getJSONObject("data").getString("id");
+//
+//            if (currentId == lastEnqueuedId) {
+//                JSONArray unProcessedModels = AggregatorUtil.splitArray(newModels, index)[1];
+//                lastEnqueuedId = AggregatorUtil.extractLastId(unProcessedModels);
+//                lastEnqueuedFullname = AggregatorUtil.extractLastFullname(unProcessedModels);
+//                enqueue(unProcessedModels);
+//                break;
+//            }
+//        }
+//
+//        /**
+//         * There is a possibility that the last processed Id is not in the list of models that was received.
+//         * In that case there is a gap and we need to patch it with a backlog request.
+//         */
+//        String firstFullnameOfNewModels = AggregatorUtil.extractFirstFullname(newModels);
+//        Thing start = new Thing(AggregatorUtil.increaseByOne(lastEnqueuedFullname));
+//        Thing end = new Thing(AggregatorUtil.decreaseByOne(firstFullnameOfNewModels));
+//        JSONArray backlogModels = redditConsumer.fetchByRange(start, end);
+//        enqueue(ConsumerUtil.concatArray(backlogModels, newModels));
+//    }
 
     //TODO: Actually enqueue the result
     private void enqueue(JSONArray result) {
         for (String tmp : AggregatorUtil.extractFullnames(result)) {
-            System.out.println(tmp);
-        }
-    }
-
-    @Override
-    public void run() {
-        //todo: make subreddit configurable
-        reversedAggregate("all");
+            System.out.println("COMMENT: CurrenTread: " + Thread.currentThread().getName() + ", ID: " + tmp);        }
     }
 }

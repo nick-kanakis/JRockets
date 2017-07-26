@@ -45,15 +45,23 @@ public class AggregatorUtil {
         return extractFullname(children, lastIndex);
     }
 
-    public static String extractLastId(JSONArray children){
+    public static String extractFirstFullname(JSONArray children){
+        int firstIndex = 0;
+        return extractFullname(children, firstIndex);
+    }
 
+    public static String extractLastId(JSONArray children){
         int lastIndex = children.length() -1;
         String fullname = extractFullname(children, lastIndex);
+        return new Thing(fullname).getId();
+    }
+
+    public static String extractFirstId(JSONArray children){
+        String fullname = extractFullname(children, 0);
         return new Thing(fullname).getId();
 
     }
 
-    //TODO: do i need it?
     public static List<String> extractFullnames(JSONArray children){
         List<String> result = new ArrayList<>();
 
@@ -94,7 +102,7 @@ public class AggregatorUtil {
 
     public static String decreaseByOne(String lastEnqueuedFullname) {
         String[] split = lastEnqueuedFullname.split("_");
-        long increasedId2Decimal = Long.parseUnsignedLong(split[1], 36) -1;
-        return split[0]+"_"+ Long.toString(increasedId2Decimal, 36);
+        long decreasedId2Decimal = Long.parseUnsignedLong(split[1], 36) -1;
+        return split[0]+"_"+ Long.toString(decreasedId2Decimal, 36);
     }
 }

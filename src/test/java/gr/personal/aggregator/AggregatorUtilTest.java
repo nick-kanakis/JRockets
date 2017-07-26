@@ -101,8 +101,47 @@ public class AggregatorUtilTest {
     }
 
     @Test
+    public void testExtractFirstFullname() throws Exception {
+
+        JSONArray childrenArray = new JSONArray();
+        for(int i =0; i<=3; i++){
+            JSONObject model = new JSONObject();
+            JSONObject data = new JSONObject();
+
+            model.put("kind","t1");
+            data.put("name","t1_"+ (i+1));
+            data.put("id",i+1);
+
+            model.put("data", data);
+            childrenArray.put(i,model);
+        }
+
+        String firstFullname = AggregatorUtil.extractFirstFullname(childrenArray);
+        Assert.assertEquals("t1_1", firstFullname);
+    }
+
+    @Test
+    public void testExtractFirstId() throws Exception {
+        JSONArray childrenArray = new JSONArray();
+        for(int i =0; i<=3; i++){
+            JSONObject model = new JSONObject();
+            JSONObject data = new JSONObject();
+
+            model.put("kind","t1");
+            data.put("name","t1_"+ (i+1));
+            data.put("id",i+1);
+
+            model.put("data", data);
+            childrenArray.put(i,model);
+        }
+        String firstId = AggregatorUtil.extractFirstId(childrenArray);
+        Assert.assertEquals("1", firstId);
+    }
+
+    @Test
     public void testDecreaseByOne() throws Exception {
         String decreasedByOne = AggregatorUtil.decreaseByOne("t1_dkijto7");
         Assert.assertEquals("t1_dkijto6", decreasedByOne);
     }
+
 }

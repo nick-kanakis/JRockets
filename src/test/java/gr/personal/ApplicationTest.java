@@ -14,6 +14,5 @@ public class ApplicationTest {
 
     @Test
     public void contextInitialization() throws Exception {
-
     }
 }

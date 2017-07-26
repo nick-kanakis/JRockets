@@ -19,6 +19,7 @@ public class AggregatorExecutorTest {
 
     @Test
     public void testAggregate() throws Exception {
+        //todo: create test case
         aggregatorExecutor.aggregate();
     }
 }

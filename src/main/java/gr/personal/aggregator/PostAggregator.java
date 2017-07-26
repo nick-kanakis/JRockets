@@ -11,44 +11,34 @@ import org.springframework.stereotype.Service;
 /**
  * Created by Nick Kanakis on 22/7/2017.
  */
-
-public class PostAggregator implements Runnable{
+@Service
+public class PostAggregator {
 
     @Autowired
     private RedditConsumer redditConsumer;
+    private static String lastFullname = null;
 
-    private void forwardAggregate(String subreddit) {
-        String lastFullname = null;
+    public void forwardAggregate(String subreddit) {
+        JSONArray result;
+        if (lastFullname == null)
+            result = redditConsumer.fetchInitialPost(subreddit);
+        else
+            result = redditConsumer.fetchForward(lastFullname);
 
-        //TODO: replace loop with a Executor.
-        for (int i = 0; i < 100; i++) {
-            JSONArray result;
+        String tmpLastFullname = AggregatorUtil.extractLastFullname(result);
 
-            if (lastFullname == null)
-                result = redditConsumer.fetchInitialPost(subreddit);
-            else
-                result = redditConsumer.fetchForward(lastFullname);
+        if (tmpLastFullname == null || tmpLastFullname == "")
+            return;
 
-            String tmpLastFullname = AggregatorUtil.extractLastFullname(result);
+        lastFullname = tmpLastFullname;
+        enqueue(result);
 
-            if (tmpLastFullname == null || tmpLastFullname == "")
-                continue;
-
-            lastFullname = tmpLastFullname;
-            enqueue(result);
-        }
     }
 
     //TODO: Actually enqueue the result
     private void enqueue(JSONArray result) {
         for (String tmp : AggregatorUtil.extractFullnames(result)) {
-            System.out.println(tmp);
+            System.out.println("POST: CurrenTread: " + Thread.currentThread().getName() + ", ID: " + tmp);
         }
     }
-
-    @Override
-    public void run() {
-        //todo: make subreddit configurable
-        forwardAggregate("all");
     }
-}

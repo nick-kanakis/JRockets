@@ -12,12 +12,10 @@ import java.util.concurrent.Executors;
 @Component
 public class AggregatorExecutor {
     @Autowired
-    private PostAggregator postAggregator;
+    private AggregatorRunnable aggregator;
 
     public void aggregate(){
         ExecutorService executorService = Executors.newFixedThreadPool(1);
-        //todo: add commentAggregator
-        executorService.execute(postAggregator);
-
+        executorService.execute(aggregator);
     }
 }
