@@ -21,7 +21,7 @@ public class CommentAggregatorTest {
 
     @Test
     public void testAggregate() throws Exception {
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 100; i++) {
             commentAggregator.forwardAggregate("all");
         }
         List<String> fullnames = OuputValidator.checkIncrementalIds("comments.txt", true);

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
@@ -41,16 +43,15 @@ public class Authentication {
         this.token = null;
     }
 
+    @Retryable(maxAttempts = 10, backoff = @Backoff(delay = 2000))
     public AccessToken getAccessToken() {
         /**
          *  If token is not null and has not expired do not request a new one.
          */
         if (token != null && token.hasExpired())
             return token;
-
         ResponseEntity<OAuthResponse> oAuthResponseResponseEntity = restTemplate.postForEntity(tokenUrl, constructRequest(), OAuthResponse.class);
         token = new AccessToken(oAuthResponseResponseEntity.getBody());
-
         return token;
     }
 

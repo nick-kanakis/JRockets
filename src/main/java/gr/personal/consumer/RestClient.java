@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,6 +35,7 @@ public class RestClient {
      * @param request : Reddit specific request
      * @return Children JSONArray
      */
+    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 1000))
     public JSONArray executeGetRequestWithDelayPolicy(RedditRequest request) {
         if (delayInMs > 0) {
             try {

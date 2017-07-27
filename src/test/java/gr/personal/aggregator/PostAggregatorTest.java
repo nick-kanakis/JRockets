@@ -22,10 +22,10 @@ public class PostAggregatorTest {
 
     @Test
     public void testAggregate() throws Exception {
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 100; i++) {
             postAggregator.forwardAggregate("all");
         }
-        List<String> fullnames = OuputValidator.checkIncrementalIds("comments.txt", false);
+        List<String> fullnames = OuputValidator.checkIncrementalIds("posts.txt", false);
         Assert.assertTrue( OuputValidator.checkValideFullnames(fullnames)<=0);
     }
 }

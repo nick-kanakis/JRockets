@@ -14,11 +14,16 @@ public class AggregatorRunnable implements Runnable {
     private CommentAggregator commentAggregator;
     @Autowired
     private PostAggregator postAggregator;
-    private AtomicBoolean running =  new AtomicBoolean(false);;
+    private AtomicBoolean running =  new AtomicBoolean(false);
 
     @Override
     public void run() {
-        while (running.get()) {
+        /**
+         * While tread is not interrupted by eg:
+         * Thread.currentThread().interrupt()
+         * and running is set true keep the infinite loop running
+         */
+        while (!Thread.currentThread().isInterrupted() && running.get()) {
             commentAggregator.forwardAggregate(SUBREDDIT);
             postAggregator.forwardAggregate(SUBREDDIT);
         }
