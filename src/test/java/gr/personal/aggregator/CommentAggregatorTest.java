@@ -1,10 +1,14 @@
 package gr.personal.aggregator;
 
+import gr.personal.helper.OuputValidator;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 /**
  * Created by Nick Kanakis on 24/7/2017.
@@ -17,6 +21,10 @@ public class CommentAggregatorTest {
 
     @Test
     public void testAggregate() throws Exception {
-        //TODO: add test
+        for (int i = 0; i < 500; i++) {
+            commentAggregator.forwardAggregate("all");
+        }
+        List<String> fullnames = OuputValidator.checkIncrementalIds("comments.txt", true);
+        Assert.assertTrue( OuputValidator.checkValideFullnames(fullnames)<=0);
     }
 }
