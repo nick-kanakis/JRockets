@@ -14,7 +14,7 @@ public class AggregatorRunnable implements Runnable {
     private CommentAggregator commentAggregator;
     @Autowired
     private PostAggregator postAggregator;
-    private AtomicBoolean running =  new AtomicBoolean(false);
+    private AtomicBoolean running =  new AtomicBoolean(true);
 
     @Override
     public void run() {

@@ -3,6 +3,7 @@ package gr.personal.aggregator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.CountDownLatch;
@@ -18,8 +19,10 @@ public class AggregatorExecutor {
     private AggregatorRunnable aggregator;
     private ExecutorService executorService;
 
+    @PostConstruct
+//TODO: Disable postConstructor in testing.
     public void start(){
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        ExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.execute(aggregator);
     }
 
