@@ -1,6 +1,6 @@
 package gr.personal.helper;
 
-import gr.personal.aggregator.AggregatorUtil;
+import gr.personal.utils.ModelsUtils;
 import gr.personal.utils.PropertyReader;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,9 +44,9 @@ public class OuputValidator {
                     throw new Exception("Duplicate values");
                 if (tmpId - previousId > 1) {
                     if (isComment)
-                        inconsistentFullnames.add(AggregatorUtil.decreaseByOne("t1_"+line));
+                        inconsistentFullnames.add(ModelsUtils.decreaseFullnameByOne("t1_"+line));
                     else
-                        inconsistentFullnames.add(AggregatorUtil.decreaseByOne("t3_"+line));
+                        inconsistentFullnames.add(ModelsUtils.decreaseFullnameByOne("t3_"+line));
                 }
                 previousId = tmpId;
             }

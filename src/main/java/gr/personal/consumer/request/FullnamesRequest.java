@@ -1,6 +1,6 @@
 package gr.personal.consumer.request;
 
-import gr.personal.consumer.ConsumerUtil;
+import gr.personal.utils.RedditAPIUtils;
 import gr.personal.oauth.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +36,6 @@ public class FullnamesRequest extends RedditRequest {
 
     @Override
     public String generateURI() {
-            return String.format(ENDPOINT_FORMAT, ConsumerUtil.transformParameters(parameters));
+            return String.format(ENDPOINT_FORMAT, RedditAPIUtils.transformParameters(parameters));
     }
 }

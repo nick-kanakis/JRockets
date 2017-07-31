@@ -1,4 +1,4 @@
-package gr.personal.consumer;
+package gr.personal.utils;
 
 import gr.personal.consumer.model.Thing;
 import org.json.JSONArray;
@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 /**
  * Created by nkanakis on 7/13/2017.
  */
-public class ConsumerUtil {
-    private static final Logger logger = LoggerFactory.getLogger(ConsumerUtil.class);
+public class RedditAPIUtils {
+    private static final Logger logger = LoggerFactory.getLogger(RedditAPIUtils.class);
     private static final int MAX_MODELS_LIMIT = 100;
     /**
      * Transform mapping to URL key-value parameters (eg: a=1&b=2&c=3).
@@ -102,14 +102,4 @@ public class ConsumerUtil {
         return sortedChildren;
     }
 
-    public static JSONArray concatArray(JSONArray... arrs)
-            throws JSONException {
-        JSONArray result = new JSONArray();
-        for (JSONArray arr : arrs) {
-            for (int i = 0; i < arr.length(); i++) {
-                result.put(arr.get(i));
-            }
-        }
-        return result;
-    }
 }

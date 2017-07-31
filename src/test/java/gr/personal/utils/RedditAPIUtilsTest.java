@@ -1,4 +1,4 @@
-package gr.personal.consumer;
+package gr.personal.utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by nkanakis on 7/21/2017.
  */
 @RunWith(SpringRunner.class)
-public class ConsumerUtilTest {
+public class RedditAPIUtilsTest {
 
     @Test
     public void testTransformParameters() throws Exception {
@@ -25,19 +25,19 @@ public class ConsumerUtilTest {
         parameters.put("a","1");
         parameters.put("b","2");
 
-        String urlEndocedParameters = ConsumerUtil.transformParameters(parameters);
+        String urlEndocedParameters = RedditAPIUtils.transformParameters(parameters);
         Assert.assertEquals("a=1&b=2", urlEndocedParameters);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailToTransformFullnames() throws Exception {
-        ConsumerUtil.transformFullnamesToCommaSeparated("asdasd", 3);
+        RedditAPIUtils.transformFullnamesToCommaSeparated("asdasd", 3);
 
     }
 
     @Test
     public void testTransformFullnames() throws Exception {
-        String commaSeparatedFullnames = ConsumerUtil.transformFullnamesToCommaSeparated("t1_dkio3q5", 3);
+        String commaSeparatedFullnames = RedditAPIUtils.transformFullnamesToCommaSeparated("t1_dkio3q5", 3);
         Assert.assertEquals("t1_dkio3q6,t1_dkio3q7,t1_dkio3q8",commaSeparatedFullnames);
     }
 
@@ -60,7 +60,7 @@ public class ConsumerUtilTest {
         mockObject.put("outerKey", "outerValue");
         mockObject.put("children", childrenArray);
 
-        JSONArray children = ConsumerUtil.shortChildrenArray(mockObject);
+        JSONArray children = RedditAPIUtils.shortChildrenArray(mockObject);
 
         List<JSONObject> sortedChildrenList = new ArrayList<>();
 

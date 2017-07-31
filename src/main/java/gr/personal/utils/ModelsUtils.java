@@ -1,4 +1,4 @@
-package gr.personal.aggregator;
+package gr.personal.utils;
 
 import gr.personal.consumer.model.Thing;
 import org.json.JSONArray;
@@ -12,9 +12,9 @@ import java.util.List;
 /**
  * Created by Nick Kanakis on 22/7/2017.
  */
-//TODO: refactor of utils methods
-public class AggregatorUtil {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AggregatorUtil.class);
+//TODO: Decrease the number of *Utils classes
+public class ModelsUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModelsUtils.class);
 
     public static String extractFullname(JSONArray children, int index){
         if(index<0)
@@ -82,35 +82,13 @@ public class AggregatorUtil {
         return result;
     }
 
-    /**
-     * Spits a JSONArray into 2 pieces.
-     *
-     * @param children: List of models to be slitted
-     * @param index: Children list will be splitted at index position
-     *             eg: children{1,2,3,4,5} & indes = 3 Result: result[0]={1,2,3}, result[1]={4,5}
-     * @return
-     */
-    public static JSONArray[] splitArray(JSONArray children, int index){
-        JSONArray part1 = new JSONArray();
-        JSONArray part2 = new JSONArray();
-
-        for (int i = 0; i <= children.length() -1 ; i++) {
-            if (i<index)
-                part1.put(children.get(i));
-            else
-                part2.put(children.get(i));
-        }
-        JSONArray[] result = {part1, part2};
-        return result;
-    }
-
-    public static String increaseByOne(String firstFullnameOfNewModels) {
+    public static String increaseFullnameByOne(String firstFullnameOfNewModels) {
         String[] split = firstFullnameOfNewModels.split("_");
         long increasedId2Decimal = Long.parseUnsignedLong(split[1], 36) +1;
         return split[0]+"_"+ Long.toString(increasedId2Decimal, 36);
     }
 
-    public static String decreaseByOne(String lastEnqueuedFullname) {
+    public static String decreaseFullnameByOne(String lastEnqueuedFullname) {
         String[] split = lastEnqueuedFullname.split("_");
         long decreasedId2Decimal = Long.parseUnsignedLong(split[1], 36) -1;
         return split[0]+"_"+ Long.toString(decreasedId2Decimal, 36);

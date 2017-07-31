@@ -1,12 +1,14 @@
 package gr.personal.consumer;
 
-import gr.personal.aggregator.AggregatorUtil;
+import gr.personal.utils.JSONArrayUtils;
+import gr.personal.utils.ModelsUtils;
 import gr.personal.consumer.model.Thing;
 import gr.personal.consumer.request.FullnamesRequest;
 import gr.personal.consumer.request.CommentRequest;
 import gr.personal.consumer.request.PostRequest;
 import gr.personal.consumer.request.RedditRequest;
 import gr.personal.oauth.Authentication;
+import gr.personal.utils.RedditAPIUtils;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,7 +82,7 @@ public class RedditConsumer {
      */
     public JSONArray fetchByFullnames(String initialFullname, int length) {
 
-        String commaSeparatedFullnames = ConsumerUtil.transformFullnamesToCommaSeparated(initialFullname, length);
+        String commaSeparatedFullnames = RedditAPIUtils.transformFullnamesToCommaSeparated(initialFullname, length);
         RedditRequest request = new FullnamesRequest(authentication, commaSeparatedFullnames);
         return client.executeGetRequestWithDelayPolicy(request);
     }
@@ -100,14 +102,14 @@ public class RedditConsumer {
         while(initialId2Decimal < finalId2Decimal){
             int range = Math.min(MAX_MODELS_LIMIT, Math.toIntExact(finalId2Decimal - initialId2Decimal));
             JSONArray currentChildren = fetchByFullnames(startFullname, range);
-            String lastFullname = AggregatorUtil.extractLastFullname(currentChildren);
+            String lastFullname = ModelsUtils.extractLastFullname(currentChildren);
 
             if(lastFullname== null || lastFullname=="")
                 continue;
 
             startFullname = lastFullname;
             initialId2Decimal += range;
-            concatenatedChildren = ConsumerUtil.concatArray(concatenatedChildren, currentChildren);
+            concatenatedChildren = JSONArrayUtils.concatArray(concatenatedChildren, currentChildren);
         }
 
         return concatenatedChildren;

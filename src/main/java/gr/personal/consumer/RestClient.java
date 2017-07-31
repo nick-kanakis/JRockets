@@ -1,6 +1,7 @@
 package gr.personal.consumer;
 
 import gr.personal.consumer.request.RedditRequest;
+import gr.personal.utils.RedditAPIUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -54,7 +55,7 @@ public class RestClient {
         calculateDelay(requestsRemaining, timeRemaining);
 
         lastCall = System.currentTimeMillis();
-        return ConsumerUtil.shortChildrenArray(new JSONObject(response.getBody()).getJSONObject("data"));
+        return RedditAPIUtils.shortChildrenArray(new JSONObject(response.getBody()).getJSONObject("data"));
     }
 
     /**
@@ -66,7 +67,7 @@ public class RestClient {
      */
     public JSONArray executeGetRequestWithoutDelayPolicy(RedditRequest request) {
         ResponseEntity<String> response = restTemplate.exchange(request.generateURI(), HttpMethod.GET, request.generateHttpHeaders(), String.class);
-        return ConsumerUtil.shortChildrenArray(new JSONObject(response.getBody()).getJSONObject("data"));
+        return RedditAPIUtils.shortChildrenArray(new JSONObject(response.getBody()).getJSONObject("data"));
     }
 
     private void calculateDelay(double requestsRemaining, double timeRemaining) {

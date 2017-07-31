@@ -1,10 +1,8 @@
 package gr.personal.aggregator;
 
-import gr.personal.consumer.ConsumerUtil;
 import gr.personal.consumer.RedditConsumer;
-import gr.personal.consumer.model.Thing;
+import gr.personal.utils.ModelsUtils;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ public class PostAggregator {
         else
             result = redditConsumer.fetchForward(lastFullname);
 
-        String tmpLastFullname = AggregatorUtil.extractLastFullname(result);
+        String tmpLastFullname = ModelsUtils.extractLastFullname(result);
 
         if (tmpLastFullname == null || tmpLastFullname == "")
             return;
@@ -46,7 +44,7 @@ public class PostAggregator {
         try {
             if (out == null)
                 out = new PrintWriter(new FileWriter(log, true));
-            for (String id : AggregatorUtil.extractIds(result)) {
+            for (String id : ModelsUtils.extractIds(result)) {
                 out.println(id);
                 LOGGER.info("POST: CurrentTread: " + Thread.currentThread().getName() + ", ID: " + id);
             }
