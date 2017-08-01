@@ -14,22 +14,27 @@ import java.util.List;
  */
 //TODO: Decrease the number of *Utils classes
 public class ModelsUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModelsUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(ModelsUtils.class);
 
     public static String extractFullname(JSONArray children, int index){
         if(index<0)
             return "";
         JSONObject innerModel;
 
+        if(children ==null || index <0){
+            logger.warn("Method extractFullname incorrect arguments");
+            return "";
+        }
+
         innerModel = children.getJSONObject(index);
 
         if(!innerModel.has("data")){
-            LOGGER.warn("Model must contain 'data' key");
+            logger.warn("Model must contain 'data' key");
             return "";
         }
         JSONObject innerData = innerModel.getJSONObject("data");
         if(!innerData.has("name")){
-            LOGGER.warn("Model must contain 'name' key");
+            logger.warn("Model must contain 'name' key");
             return "";
         }
         return innerData.getString("name");
@@ -40,7 +45,10 @@ public class ModelsUtils {
     }
 
     public static String extractLastFullname(JSONArray children){
-
+        if(children ==null ){
+            logger.warn("Method extractLastFullname incorrect argument");
+            return "";
+        }
         int lastIndex = children.length() -1;
         return extractFullname(children, lastIndex);
     }
@@ -51,6 +59,10 @@ public class ModelsUtils {
     }
 
     public static String extractLastId(JSONArray children){
+        if(children ==null ){
+            logger.warn("Method extractLastId incorrect argument");
+            return "";
+        }
         int lastIndex = children.length() -1;
         String fullname = extractFullname(children, lastIndex);
         return new Thing(fullname).getId();
@@ -63,6 +75,11 @@ public class ModelsUtils {
     }
 
     public static List<String> extractFullnames(JSONArray children){
+        if(children ==null ){
+            logger.warn("Method extractFullnames incorrect argument");
+            return new ArrayList<>();
+        }
+
         List<String> result = new ArrayList<>();
 
         for (int i = 0; i <= children.length() -1; i++) {
@@ -73,6 +90,10 @@ public class ModelsUtils {
     }
 
     public static List<String> extractIds(JSONArray children){
+        if(children ==null ){
+            logger.warn("Method extractIds incorrect argument");
+            return new ArrayList<>();
+        }
         List<String> result = new ArrayList<>();
 
         for (int i = 0; i <= children.length() -1; i++) {

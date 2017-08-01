@@ -25,6 +25,6 @@ public class CommentAggregatorTest {
             commentAggregator.forwardAggregate("all");
         }
         List<String> fullnames = OuputValidator.checkIncrementalIds("comments.txt", true);
-        Assert.assertTrue( OuputValidator.checkValideFullnames(fullnames)<=0);
+        Assert.assertEquals(0, OuputValidator.checkValideFullnames(fullnames));
     }
 }

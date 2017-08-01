@@ -43,7 +43,7 @@ public class BeanConfig {
     @Bean
     @Scope(value = "prototype")
     public Logger logger(InjectionPoint injectionPoint){
-        return LoggerFactory.getLogger(injectionPoint.getMethodParameter().getContainingClass());
+        return LoggerFactory.getLogger(injectionPoint.getMember().getDeclaringClass());
     }
 
 }

@@ -17,13 +17,14 @@ import java.util.concurrent.Executors;
  */
 @Component
 public class AggregatorExecutor {
-    //todo: replace all loggers with injectionpoint loggers.
-    private static Logger logger;
+    @Autowired
+    private Logger logger;
+
     @Autowired
     private AggregatorRunnable aggregator;
     private ExecutorService executorService;
 
-    @PostConstruct
+//    @PostConstruct
 //TODO: Disable postConstructor in testing.
     public void start(){
         logger.info("Start data aggregation from Reddit API ");

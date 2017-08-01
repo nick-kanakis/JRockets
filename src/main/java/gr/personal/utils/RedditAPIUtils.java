@@ -24,11 +24,15 @@ public class RedditAPIUtils {
      */
     public static String transformParameters(Map<String, String> keyValueParameters) {
 
+        if(keyValueParameters == null){
+            logger.warn("Method transformParameters incorrect argument");
+            return "";
+        }
+
         Set<String> keys = keyValueParameters.keySet();
         String parameters="";
         boolean start = true;
         for (String key : keys) {
-
             if (!start) {
                 parameters = parameters.concat("&");
             } else {
@@ -44,6 +48,12 @@ public class RedditAPIUtils {
     }
 
     public static List<Thing> transformFullnames(String initialFullname, int length){
+
+        if(initialFullname == null || length<0){
+            logger.warn("Method transformFullnames incorrect arguments");
+            return new ArrayList<>();
+        }
+
         if(length>MAX_MODELS_LIMIT) {
             length = MAX_MODELS_LIMIT;
         }
@@ -71,6 +81,10 @@ public class RedditAPIUtils {
      * @return
      */
     public static JSONArray shortChildrenArray(JSONObject data){
+        if(data == null ){
+            logger.warn("Method shortChildrenArray incorrect argument");
+            return new JSONArray();
+        }
 
         JSONArray unsortedChildren = data.getJSONArray("children");
         JSONArray sortedChildren = new JSONArray();

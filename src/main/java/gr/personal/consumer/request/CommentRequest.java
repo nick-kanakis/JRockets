@@ -4,6 +4,7 @@ import gr.personal.utils.RedditAPIUtils;
 import gr.personal.oauth.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
@@ -12,7 +13,8 @@ import java.util.Map;
  */
 public class CommentRequest extends RedditRequest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommentRequest.class);
+    @Autowired
+    private Logger logger;
     private static final String ENDPOINT_FORMAT = "https://oauth.reddit.com/r/%s/comments.json?%s";
 
     public CommentRequest(String subreddit, Map<String, String> parameters, long limit, Authentication authentication) {

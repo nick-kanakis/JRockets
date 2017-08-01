@@ -21,6 +21,7 @@ public class PostAggregatorTest {
     private PostAggregator postAggregator;
 
     @Test
+    //TODO: check why I have ~0.0005% missing comments.
     public void testAggregate() throws Exception {
         for (int i = 0; i < 100; i++) {
             postAggregator.forwardAggregate("all");

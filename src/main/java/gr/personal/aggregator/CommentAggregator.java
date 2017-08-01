@@ -15,7 +15,8 @@ import java.io.*;
  */
 @Service
 public class CommentAggregator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommentAggregator.class);
+    @Autowired
+    private Logger logger;
 
     @Autowired
     private RedditConsumer redditConsumer;
@@ -46,7 +47,7 @@ public class CommentAggregator {
                 out = new PrintWriter(new FileWriter(log, true));
             for (String id : ModelsUtils.extractIds(result)) {
                 out.println(id);
-                LOGGER.info("COMMENT: CurrentTread: " + Thread.currentThread().getName() + ", ID: " + id);
+                logger.debug("COMMENT: CurrentTread: {}, ID: {}", Thread.currentThread().getName(), id);
             }
         } catch (IOException e) {
 
@@ -78,7 +79,7 @@ public class CommentAggregator {
 //        long currentLatestIdDec = Long.parseLong(newModelsLatestId, 36);
 //        long lastEnquedIdDec = Long.parseLong(lastEnqueuedId, 36);
 //        if ( currentLatestIdDec <= lastEnquedIdDec) {
-//            LOGGER.debug("No new models, currentLatestId:{}, lastEnqueueId", currentLatestIdDec, lastEnquedIdDec);
+//            logger.debug("No new models, currentLatestId:{}, lastEnqueueId", currentLatestIdDec, lastEnquedIdDec);
 //            return;
 //        }
 //

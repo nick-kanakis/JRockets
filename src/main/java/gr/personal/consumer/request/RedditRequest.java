@@ -2,9 +2,12 @@ package gr.personal.consumer.request;
 
 import gr.personal.oauth.Authentication;
 import gr.personal.utils.PropertyReader;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,10 +15,12 @@ import java.util.Map;
  * Created by nkanakis on 7/21/2017.
  */
 public abstract class RedditRequest {
-
+    @Autowired
+    private Logger logger;
     private static final int MAX_MODELS_LIMIT = 100;
 
-    private String userAgent;
+    //default userAgent in case of IOException when reading properties file
+    private String userAgent = "web_backend:JRockets_bot:JRockets:v0.1";
     private Authentication authentication;
     protected String subreddit;
     protected Map<String, String> parameters;
@@ -24,7 +29,11 @@ public abstract class RedditRequest {
         this.subreddit = subreddit;
         this.parameters = parameters;
         this.authentication = authentication;
-        this.userAgent = PropertyReader.fetchValue("app.useragent");
+        try {
+            this.userAgent = PropertyReader.fetchValue("app.useragent");
+        } catch (IOException e) {
+            logger.warn("Unable to fetch properties", e);
+        }
 
         if (parameters == null) {
             this.parameters = new HashMap<String, String>();

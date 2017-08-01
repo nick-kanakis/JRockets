@@ -1,23 +1,35 @@
 package gr.personal.aggregator;
 
 import gr.personal.utils.PropertyReader;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by nkanakis on 7/26/2017.
  */
 public class AggregatorRunnable implements Runnable {
-    private static final String SUBREDDIT = PropertyReader.fetchValue("reddit.subreddit");
+    @Autowired
+    private Logger logger;
     @Autowired
     private CommentAggregator commentAggregator;
+
     @Autowired
     private PostAggregator postAggregator;
     private AtomicBoolean running =  new AtomicBoolean(true);
 
     @Override
     public void run() {
+        //default subreddit is /r/all
+        String SUBREDDIT = "all";
+        try {
+            SUBREDDIT = PropertyReader.fetchValue("reddit.subreddit");
+        } catch (IOException e) {
+            logger.warn("Unable to fetch properties", e);
+        }
+
         /**
          * While tread is not interrupted by eg:
          * Thread.currentThread().interrupt()
@@ -29,6 +41,8 @@ public class AggregatorRunnable implements Runnable {
         }
     }
 
-    public void stop() { running.set(false);}
+    public void stop() {
+        logger.info("Stopping aggregator process");
+        running.set(false);}
 
 }

@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,8 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class RestClient {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RestClient.class);
+    @Autowired
+    private Logger logger;
 
     private RestTemplate restTemplate;
     private static double delayInMs = 0;
@@ -42,7 +44,7 @@ public class RestClient {
             try {
                 Thread.sleep((long) delayInMs);
             } catch (InterruptedException e) {
-                LOGGER.warn("Interrupted Exception thrown while enforcing delay policy", e);
+                logger.warn("Interrupted Exception thrown while enforcing delay policy", e);
             }
         }
 

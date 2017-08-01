@@ -5,6 +5,9 @@ import gr.personal.utils.PropertyReader;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,6 +23,7 @@ import java.util.List;
  */
 public class OuputValidator {
 
+    private static final Logger logger = LoggerFactory.getLogger(OuputValidator.class);
     /**
      * Given a file, the method checks for out of sequence ids and returns the inconsistencies fullnames.
      *
@@ -66,7 +70,14 @@ public class OuputValidator {
     public static int checkValideFullnames(List<String> fullnames) throws JSONException, InterruptedException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.set("User-agent", PropertyReader.fetchValue("app.useragent"));
+        //default userAgent in case of IOException when reading properties file
+        String userAgent = "web_backend:JRockets_bot:JRockets:v0.1";
+        try {
+            userAgent = PropertyReader.fetchValue("app.useragent");
+        } catch (IOException e) {
+            logger.warn("Unable to fetch properties", e);
+        }
+        headers.set("User-agent", userAgent);
         int inconsistenciesCounter = 0;
         for (String fullname : fullnames) {
             ResponseEntity<String> response = restTemplate.exchange("https://www.reddit.com/api/info.json?id=" + fullname, HttpMethod.GET, new HttpEntity(headers), String.class);

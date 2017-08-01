@@ -15,7 +15,8 @@ import java.io.*;
  */
 @Service
 public class PostAggregator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PostAggregator.class);
+    @Autowired
+    private Logger logger;
 
     @Autowired
     private RedditConsumer redditConsumer;
@@ -46,7 +47,7 @@ public class PostAggregator {
                 out = new PrintWriter(new FileWriter(log, true));
             for (String id : ModelsUtils.extractIds(result)) {
                 out.println(id);
-                LOGGER.info("POST: CurrentTread: " + Thread.currentThread().getName() + ", ID: " + id);
+                logger.debug("POST: CurrentTread: {}, ID: {}", Thread.currentThread().getName(), id);
             }
         } catch (IOException e) {
 

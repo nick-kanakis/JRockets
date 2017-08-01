@@ -24,7 +24,7 @@ public class AggregatorRunnableTest {
 
     @Autowired
     private AggregatorRunnable aggregatorRunnable;
-    private long TIME_TO_RUN = 30000;
+    private long TIME_TO_RUN = 40000;
 
     @Test(timeout = 100000)
     public void testRun() throws Exception {

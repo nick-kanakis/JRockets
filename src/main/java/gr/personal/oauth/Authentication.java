@@ -3,6 +3,8 @@ package gr.personal.oauth;
 import gr.personal.oauth.model.AccessToken;
 import gr.personal.oauth.model.OAuthResponse;
 
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +23,8 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class Authentication {
+    @Autowired
+    private Logger logger;
 
     private AccessToken token;
     private RestTemplate restTemplate;
@@ -50,6 +54,8 @@ public class Authentication {
          */
         if (token != null && token.hasExpired())
             return token;
+
+        logger.debug("Token has expired, getting new token.");
         ResponseEntity<OAuthResponse> oAuthResponseResponseEntity = restTemplate.postForEntity(tokenUrl, constructRequest(), OAuthResponse.class);
         token = new AccessToken(oAuthResponseResponseEntity.getBody());
         return token;

@@ -111,8 +111,6 @@ public class RedditConsumer {
             initialId2Decimal += range;
             concatenatedChildren = JSONArrayUtils.concatArray(concatenatedChildren, currentChildren);
         }
-
         return concatenatedChildren;
-
     }
 }
