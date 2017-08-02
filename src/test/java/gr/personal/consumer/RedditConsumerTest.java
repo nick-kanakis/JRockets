@@ -1,93 +1,78 @@
 package gr.personal.consumer;
 
 import gr.personal.consumer.model.Thing;
+import gr.personal.consumer.request.FullnamesRequest;
+import gr.personal.consumer.request.RedditRequest;
+import gr.personal.oauth.Authentication;
+import gr.personal.oauth.model.AccessToken;
+import gr.personal.oauth.model.OAuthResponse;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-/**
- * Created by nkanakis on 7/20/2017.
- */
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
+/**
+ * Created by Nick Kanakis on 2/8/2017.
+ */
 @RunWith(SpringRunner.class)
-@SpringBootTest
 public class RedditConsumerTest {
 
-    @Autowired
+    @Mock
+    private RestClient client;
+
+    @Mock
+    private Authentication authentication;
+
+    @InjectMocks
     private RedditConsumer redditConsumer;
 
-    @Test
-    public void testFetchInitialPost() throws Exception {
-        JSONArray children = redditConsumer.fetchInitialPost("all");
-        Assert.assertFalse(children.isNull(0));
-        JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
-        Assert.assertNotNull(innerData.get("id"));
-    }
 
-    @Test
-    public void testFetchInitialComment() throws Exception {
-        JSONArray children =  redditConsumer.fetchInitialComment("all");
-        Assert.assertFalse(children.isNull(0));
-        JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
-        Assert.assertNotNull(innerData.get("id"));
+    @Before
+    public void setUp() throws Exception {
 
     }
 
-    @Test
-    public void testFetchReversedPosts() throws Exception {
-        JSONArray children =  redditConsumer.fetchReversedPosts("all");
-        Assert.assertFalse(children.isNull(99));
-        JSONObject innerData =  children.getJSONObject(99).getJSONObject("data");
-        Assert.assertNotNull(innerData.get("id"));
+    @Test(expected = NumberFormatException.class)
+    public void shouldFailToFetchByRange() throws Exception {
+        Thing start = new Thing("t1_ ");
+        Thing end = new Thing("t1_ ");
+        redditConsumer.fetchByRange(start, end);
     }
 
+
     @Test
-    public void testTetchReversedComments() throws Exception {
-        JSONArray children =  redditConsumer.fetchReversedComments("all");
-        Assert.assertFalse(children.isNull(99));
-        JSONObject innerData =  children.getJSONObject(99).getJSONObject("data");
-        Assert.assertNotNull(innerData.get("id"));
+    //todo: make client respond dynamically in order to mimic the real Reddit API
+    public void shouldFetchByRange() throws Exception {
+        JSONArray originalArray = generateModels(3);
+        when(client.executeGetRequestWithDelayPolicy(any(RedditRequest.class))).thenReturn(originalArray);
+        Thing start = new Thing("t1_1");
+        Thing end = new Thing("t1_3");
+        Assert.assertEquals(originalArray, redditConsumer.fetchByRange(start, end));
     }
 
-    @Test
-    public void testFetchFullnames() throws Exception {
-        JSONArray children=  redditConsumer.fetchByFullnames("t1_dkijto7", 2);
+    private JSONArray generateModels(int numberOfModels) throws JSONException {
+        JSONArray childrenArray = new JSONArray();
+        for(int i =0; i<numberOfModels; i++){
+            JSONObject model = new JSONObject();
+            JSONObject data = new JSONObject();
 
-        Assert.assertFalse(children.isNull(0));
-        JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
-        Assert.assertEquals("dkijto8", innerData.get("id"));
+            model.put("kind","t1");
+            data.put("name",i+1);
 
-        Assert.assertFalse(children.isNull(1));
-        JSONObject innerData2 =  children.getJSONObject(1).getJSONObject("data");
-        Assert.assertEquals("dkijto9", innerData2.get("id"));
-
-    }
-
-    @Test
-    public void testFetchForward() throws Exception {
-        JSONArray children =  redditConsumer.fetchForward("t1_dkijto7");
-        Assert.assertFalse(children.isNull(99));
-
-        Assert.assertFalse(children.isNull(0));
-        JSONObject innerData =  children.getJSONObject(0).getJSONObject("data");
-        Assert.assertEquals("dkijto8", innerData.get("id"));
-
-        Assert.assertFalse(children.isNull(1));
-        JSONObject innerData2 =  children.getJSONObject(1).getJSONObject("data");
-        Assert.assertEquals("dkijto9", innerData2.get("id"));
-    }
-
-    @Test
-    public void testFetchByRange() throws Exception{
-
-        JSONArray results = redditConsumer.fetchByRange(new Thing("t1_dkijto7"), new Thing("t1_dkijtts"));
-        Assert.assertTrue(results.length()>200);
-        JSONObject lastModel = results.getJSONObject(results.length() - 1);
-        Assert.assertEquals("t1_dkijtts",lastModel.getJSONObject("data").getString("name") );
+            model.put("data", data);
+            childrenArray.put(i,model);
+        }
+        return childrenArray;
     }
 }

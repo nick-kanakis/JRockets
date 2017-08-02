@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by nkanakis on 7/12/2017.
  */
-@Service
+@Component
 public class Authentication {
     @Autowired
     private Logger logger;

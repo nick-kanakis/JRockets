@@ -50,10 +50,10 @@ public final class RedditAPIUtils {
         return parameters;
     }
 
-    public static List<Thing> transformFullnames(String initialFullname, int length){
+    public static List<Thing> transformFullnamesToThings(String initialFullname, int length){
 
         if(initialFullname == null || length<0){
-            logger.warn("Method transformFullnames incorrect arguments");
+            logger.warn("Method transformFullnamesToThings incorrect arguments");
             return new ArrayList<>();
         }
 
@@ -72,7 +72,7 @@ public final class RedditAPIUtils {
     }
 
     public static String transformFullnamesToCommaSeparated(String initialFullname, int length){
-        List<Thing> things = transformFullnames(initialFullname, length);
+        List<Thing> things = transformFullnamesToThings(initialFullname, length);
 
         String commaSeparattedFullnames = things.stream().map(t -> t.getFullName()).collect(Collectors.joining(","));
         return commaSeparattedFullnames;

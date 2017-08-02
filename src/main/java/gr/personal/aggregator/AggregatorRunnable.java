@@ -23,9 +23,9 @@ public class AggregatorRunnable implements Runnable {
     @Override
     public void run() {
         //default subreddit is /r/all
-        String SUBREDDIT = "all";
+        String subreddit = "all";
         try {
-            SUBREDDIT = PropertyReader.fetchValue("reddit.subreddit");
+            subreddit = PropertyReader.fetchValue("reddit.subreddit");
         } catch (IOException e) {
             logger.warn("Unable to fetch properties", e);
         }
@@ -36,8 +36,8 @@ public class AggregatorRunnable implements Runnable {
          * and running is set true keep the infinite loop running
          */
         while (!Thread.currentThread().isInterrupted() && running.get()) {
-            commentAggregator.forwardAggregate(SUBREDDIT);
-            postAggregator.forwardAggregate(SUBREDDIT);
+            commentAggregator.forwardAggregate(subreddit);
+            postAggregator.forwardAggregate(subreddit);
         }
     }
 

@@ -12,13 +12,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by nkanakis on 7/20/2017.
  */
-@Service
+@Component
 public class RestClient {
     @Autowired
     private Logger logger;

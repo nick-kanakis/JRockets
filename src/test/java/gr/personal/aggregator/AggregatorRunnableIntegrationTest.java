@@ -1,8 +1,10 @@
 package gr.personal.aggregator;
 
+import gr.personal.helper.IntegrationTest;
 import gr.personal.helper.OuputValidator;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
@@ -20,7 +22,8 @@ import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AggregatorRunnableTest {
+@Category(IntegrationTest.class)
+public class AggregatorRunnableIntegrationTest {
 
     @Autowired
     private AggregatorRunnable aggregatorRunnable;

@@ -11,12 +11,13 @@ import gr.personal.oauth.Authentication;
 import gr.personal.utils.RedditAPIUtils;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
  * Created by nkanakis on 7/13/2017.
  */
-@Service
+@Component
 public class RedditConsumer {
     @Autowired
     private RestClient client;
@@ -77,7 +78,7 @@ public class RedditConsumer {
      * <p>
      *
      * @param initialFullname : starting point
-     * @param length :
+     * @param length          :
      * @return (Reddit models) children
      */
     public JSONArray fetchByFullnames(String initialFullname, int length) {
@@ -92,19 +93,24 @@ public class RedditConsumer {
         return fetchByFullnames(initialFullname, MAX_MODELS_LIMIT);
     }
 
-    public JSONArray fetchByRange(Thing start, Thing end){
+    public JSONArray fetchByRange(Thing start, Thing end) {
 
         long initialId2Decimal = Long.parseLong(start.getId(), 36);
         long finalId2Decimal = Long.parseLong(end.getId(), 36);
+
         String startFullname = start.getFullName();
         JSONArray concatenatedChildren = new JSONArray();
 
-        while(initialId2Decimal < finalId2Decimal){
+        while (initialId2Decimal < finalId2Decimal) {
             int range = Math.min(MAX_MODELS_LIMIT, Math.toIntExact(finalId2Decimal - initialId2Decimal));
-            JSONArray currentChildren = fetchByFullnames(startFullname, range);
+
+            /** fetchByFullnames(startFullname, range) returns (startFullname+1, startFullname+2, .....), in this case
+             * we want ((startFullname, startFullname+1, .....)) so we decrease the start full name by one.
+             **/
+            JSONArray currentChildren = fetchByFullnames(ModelsUtils.decreaseFullnameByOne(startFullname), range);
             String lastFullname = ModelsUtils.extractLastFullname(currentChildren);
 
-            if(lastFullname== null || lastFullname=="")
+            if (lastFullname == null || lastFullname == "")
                 continue;
 
             startFullname = lastFullname;
