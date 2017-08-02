@@ -8,8 +8,10 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by Nick Kanakis on 31/7/2017.
  */
-public class JSONArrayUtils {
+public final class JSONArrayUtils {
     private static final Logger logger = LoggerFactory.getLogger(JSONArrayUtils.class);
+
+    private JSONArrayUtils() {}
 
     public static JSONArray concatArray(JSONArray... arrs)
             throws JSONException {

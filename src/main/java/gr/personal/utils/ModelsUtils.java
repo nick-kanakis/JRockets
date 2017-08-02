@@ -12,9 +12,11 @@ import java.util.List;
 /**
  * Created by Nick Kanakis on 22/7/2017.
  */
-//TODO: Decrease the number of *Utils classes
-public class ModelsUtils {
+//TODO: Replace statics with services.
+public final class ModelsUtils {
     private static final Logger logger = LoggerFactory.getLogger(ModelsUtils.class);
+
+    private ModelsUtils() {}
 
     public static String extractFullname(JSONArray children, int index){
         if(index<0)
@@ -40,7 +42,7 @@ public class ModelsUtils {
         return innerData.getString("name");
     }
 
-    public static String extractInitialFilename(JSONArray children){
+    public static String extractInitialFullname(JSONArray children){
         return extractFullname(children, 0);
     }
 

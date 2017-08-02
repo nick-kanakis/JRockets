@@ -13,9 +13,12 @@ import java.util.stream.Collectors;
 /**
  * Created by nkanakis on 7/13/2017.
  */
-public class RedditAPIUtils {
+public final class RedditAPIUtils {
     private static final Logger logger = LoggerFactory.getLogger(RedditAPIUtils.class);
     private static final int MAX_MODELS_LIMIT = 100;
+
+    private RedditAPIUtils() {}
+
     /**
      * Transform mapping to URL key-value parameters (eg: a=1&b=2&c=3).
      *

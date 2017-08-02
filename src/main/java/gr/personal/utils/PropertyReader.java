@@ -10,8 +10,10 @@ import java.util.Properties;
 /**
  * Created by Nick Kanakis on 20/7/2017.
  */
-public class PropertyReader {
+public final class PropertyReader {
    private static final Logger logger = LoggerFactory.getLogger(PropertyReader.class);
+
+    private PropertyReader() {}
 
     public static String fetchValue(String file, String key) throws IOException {
         Properties prop = new Properties();

@@ -37,8 +37,8 @@ public class ModelsUtilsTest {
     }
 
     @Test
-    public void testExtractInitialFullename() throws Exception {
-        String id = ModelsUtils.extractInitialFilename(mockObject);
+    public void testExtractInitialFullname() throws Exception {
+        String id = ModelsUtils.extractInitialFullname(mockObject);
         Assert.assertEquals("1",id);
     }
 
