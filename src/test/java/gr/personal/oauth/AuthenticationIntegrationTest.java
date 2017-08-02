@@ -18,7 +18,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Category(IntegrationTest.class)
-public class AuthenticationTest {
+public class AuthenticationIntegrationTest {
 
     @Autowired
     private Authentication authentication;
