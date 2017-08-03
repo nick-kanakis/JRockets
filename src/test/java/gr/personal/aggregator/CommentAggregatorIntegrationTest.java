@@ -27,6 +27,7 @@ public class CommentAggregatorIntegrationTest {
         for (int i = 0; i < 100; i++) {
             commentAggregator.forwardAggregate("all");
         }
+        //todo: change it when queue is added
         List<String> fullnames = OuputValidator.checkIncrementalIds("comments.txt", true);
         Assert.assertEquals(0, OuputValidator.checkValideFullnames(fullnames));
     }

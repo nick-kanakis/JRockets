@@ -29,6 +29,7 @@ public class PostAggregatorIntegrationTest {
         for (int i = 0; i < 100; i++) {
             postAggregator.forwardAggregate("all");
         }
+        //todo: change it when queue is added
         List<String> fullnames = OuputValidator.checkIncrementalIds("posts.txt", false);
         Assert.assertTrue( OuputValidator.checkValideFullnames(fullnames)<=0);
     }

@@ -33,7 +33,7 @@ public class RestClient {
     }
 
     /**
-     * Executes the http call to Reddit API. It enforces delay policy as described here:
+     * Enforces delay policy on HTTP calls as described here:
      * https://github.com/reddit/reddit/wiki/API
      *
      * @param request : Reddit specific request

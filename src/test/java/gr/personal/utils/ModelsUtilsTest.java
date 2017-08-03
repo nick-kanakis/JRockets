@@ -8,8 +8,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by Nick Kanakis on 22/7/2017.
@@ -29,11 +32,17 @@ public class ModelsUtilsTest {
 
             model.put("kind","t1");
             data.put("name",i+1);
+            data.put("id",i+1);
 
             model.put("data", data);
             childrenArray.put(i,model);
         }
         mockObject =  childrenArray;
+    }
+
+    @Test
+    public void testExtractFullname() throws Exception {
+        Assert.assertEquals("3", ModelsUtils.extractFullname(mockObject, 2));
     }
 
     @Test
@@ -49,6 +58,23 @@ public class ModelsUtilsTest {
     }
 
     @Test
+    public void testExtractLastId() throws Exception {
+        JSONArray childrenArray = new JSONArray();
+        for(int i =0; i<=3; i++){
+            JSONObject model = new JSONObject();
+            JSONObject data = new JSONObject();
+
+            model.put("kind","t1");
+            data.put("name","t1_"+ (i+1));
+            data.put("id",i+1);
+
+            model.put("data", data);
+            childrenArray.put(i,model);
+        }
+        Assert.assertEquals("4", ModelsUtils.extractLastId(childrenArray));
+    }
+
+    @Test
     public void testExtractFullnames() throws Exception {
         List<String> results = ModelsUtils.extractFullnames(mockObject);
         List<String> expectedResult = new ArrayList<>();
@@ -57,6 +83,29 @@ public class ModelsUtilsTest {
             expectedResult.add(String.valueOf(i+1));
         }
         Assert.assertEquals(expectedResult,results);
+    }
+
+    @Test
+    public void testExtractIds() throws Exception {
+        JSONArray childrenArray = new JSONArray();
+        for(int i =0; i<=3; i++){
+            JSONObject model = new JSONObject();
+            JSONObject data = new JSONObject();
+
+            model.put("kind","t1");
+            data.put("name","t1_"+ (i+1));
+            data.put("id",i+1);
+
+            model.put("data", data);
+            childrenArray.put(i,model);
+        }
+        List<String> ids = new ArrayList<>();
+        ids.add("1");
+        ids.add("2");
+        ids.add("3");
+        ids.add("4");
+
+        Assert.assertThat(ids, is( ModelsUtils.extractIds(childrenArray)));
     }
 
     @Test

@@ -35,6 +35,7 @@ public class AggregatorRunnableIntegrationTest {
         service.execute(aggregatorRunnable);
         Thread.sleep(TIME_TO_RUN);
         aggregatorRunnable.stop();
+        //todo: change it when queue is added
         List<String> postFullnames = OuputValidator.checkIncrementalIds("posts.txt", false);
         Assert.assertTrue( OuputValidator.checkValideFullnames(postFullnames)<=0);
         List<String> commentFullnames = OuputValidator.checkIncrementalIds("comments.txt", true);

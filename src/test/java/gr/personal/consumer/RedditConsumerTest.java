@@ -20,7 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by Nick Kanakis on 2/8/2017.
@@ -31,17 +31,9 @@ public class RedditConsumerTest {
     @Mock
     private RestClient client;
 
-    @Mock
-    private Authentication authentication;
-
     @InjectMocks
     private RedditConsumer redditConsumer;
 
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
 
     @Test(expected = NumberFormatException.class)
     public void shouldFailToFetchByRange() throws Exception {
@@ -52,13 +44,23 @@ public class RedditConsumerTest {
 
 
     @Test
-    //todo: make client respond dynamically in order to mimic the real Reddit API
-    public void shouldFetchByRange() throws Exception {
+    public void testSimpleFetchByRange() throws Exception {
         JSONArray originalArray = generateModels(3);
         when(client.executeGetRequestWithDelayPolicy(any(RedditRequest.class))).thenReturn(originalArray);
         Thing start = new Thing("t1_1");
         Thing end = new Thing("t1_3");
         Assert.assertEquals(originalArray, redditConsumer.fetchByRange(start, end));
+    }
+
+    @Test
+    public void testFetchByRangeWithLargeRange() throws Exception {
+        when(client.executeGetRequestWithDelayPolicy(any(RedditRequest.class))).thenReturn( generateModels(2));
+        Thing start = new Thing("t1_1");
+        Thing end = new Thing("t1_8C");
+        redditConsumer.fetchByRange(start, end);
+
+        verify(client, times(3)).executeGetRequestWithDelayPolicy(any(RedditRequest.class));
+
     }
 
     private JSONArray generateModels(int numberOfModels) throws JSONException {
@@ -68,7 +70,7 @@ public class RedditConsumerTest {
             JSONObject data = new JSONObject();
 
             model.put("kind","t1");
-            data.put("name",i+1);
+            data.put("name","t1_"+i+1);
 
             model.put("data", data);
             childrenArray.put(i,model);

@@ -53,4 +53,24 @@ public class Thing {
     public String getFullName() {
         return fullName;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Thing thing = (Thing) o;
+
+        if (kind != thing.kind) return false;
+        if (id != null ? !id.equals(thing.id) : thing.id != null) return false;
+        return fullName != null ? fullName.equals(thing.fullName) : thing.fullName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = kind != null ? kind.hashCode() : 0;
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
+        return result;
+    }
 }
