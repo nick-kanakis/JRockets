@@ -3,6 +3,7 @@ package gr.personal.aggregator;
 import gr.personal.utils.PropertyReader;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,13 +12,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created by nkanakis on 7/26/2017.
  */
 public class AggregatorRunnable implements Runnable {
+
     @Autowired
     private Logger logger;
     @Autowired
-    private CommentAggregator commentAggregator;
+    @Qualifier("CommentAggregator")
+    private Aggregator commentAggregator;
 
     @Autowired
-    private PostAggregator postAggregator;
+    @Qualifier("PostAggregator")
+    private Aggregator postAggregator;
     private AtomicBoolean running =  new AtomicBoolean(true);
 
     @Override

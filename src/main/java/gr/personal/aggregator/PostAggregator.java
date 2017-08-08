@@ -14,8 +14,8 @@ import java.io.*;
 /**
  * Created by Nick Kanakis on 22/7/2017.
  */
-@Component
-public class PostAggregator {
+@Component("PostAggregator")
+public class PostAggregator implements Aggregator {
     @Autowired
     private Logger logger;
 
@@ -23,6 +23,7 @@ public class PostAggregator {
     private RedditConsumer redditConsumer;
     private static String lastFullname = null;
 
+    @Override
     public void forwardAggregate(String subreddit) {
         JSONArray result;
         if (lastFullname == null)
@@ -37,6 +38,11 @@ public class PostAggregator {
 
         lastFullname = tmpLastFullname;
         enqueue(result);
+    }
+
+    @Override
+    public void reversedAggregate(String subreddit) {
+        throw new RuntimeException("ReversedAggregate in not yet supported");
     }
 
     //TODO: Actually enqueue the result

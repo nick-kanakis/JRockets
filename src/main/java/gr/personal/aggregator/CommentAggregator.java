@@ -14,8 +14,9 @@ import java.io.*;
 /**
  * Created by Nick Kanakis on 22/7/2017.
  */
-@Component
-public class CommentAggregator {
+@Component("CommentAggregator")
+public class CommentAggregator implements Aggregator {
+
     @Autowired
     private Logger logger;
 
@@ -55,6 +56,10 @@ public class CommentAggregator {
         } finally {
             out.close();
         }
+    }
+
+    public void reversedAggregate(String subreddit) {
+        throw new RuntimeException("ReversedAggregate in not yet supported");
     }
 
 //TODO: fix reversed Aggregator if possible
