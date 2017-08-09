@@ -1,6 +1,7 @@
 package gr.personal.aggregator;
 
 import gr.personal.consumer.RedditConsumer;
+import gr.personal.queue.QueueService;
 import gr.personal.utils.ModelsUtils;
 import org.json.JSONArray;
 import org.slf4j.Logger;
@@ -21,6 +22,8 @@ public class PostAggregator implements Aggregator {
 
     @Autowired
     private RedditConsumer redditConsumer;
+    @Autowired
+    private QueueService queueService;
     private static String lastFullname = null;
 
     @Override
@@ -37,7 +40,7 @@ public class PostAggregator implements Aggregator {
             return;
 
         lastFullname = tmpLastFullname;
-        enqueue(result);
+        queueService.enqueuePost(result);
     }
 
     @Override
@@ -45,21 +48,4 @@ public class PostAggregator implements Aggregator {
         throw new RuntimeException("ReversedAggregate in not yet supported");
     }
 
-    //TODO: Actually enqueue the result
-    private void enqueue(JSONArray result) {
-        File log = new File("posts.txt");
-        PrintWriter out = null;
-        try {
-            if (out == null)
-                out = new PrintWriter(new FileWriter(log, true));
-            for (String id : ModelsUtils.extractIds(result)) {
-                out.println(id);
-                logger.debug("POST: CurrentTread: {}, ID: {}", Thread.currentThread().getName(), id);
-            }
-        } catch (IOException e) {
-
-        } finally {
-            out.close();
-        }
-    }
 }

@@ -14,6 +14,8 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by Nick Kanakis on 25/7/2017.
+ *
+ * Creates a new single thread that runs in the background an AggregatorRunnable instance.
  */
 @Component
 public class AggregatorExecutor {

@@ -1,6 +1,7 @@
 package gr.personal.aggregator;
 
 import gr.personal.consumer.RedditConsumer;
+import gr.personal.queue.QueueService;
 import gr.personal.utils.ModelsUtils;
 import org.json.JSONArray;
 import org.slf4j.Logger;
@@ -22,6 +23,8 @@ public class CommentAggregator implements Aggregator {
 
     @Autowired
     private RedditConsumer redditConsumer;
+    @Autowired
+    private QueueService queueService;
     private static String lastFullname = null;
 
     public void forwardAggregate(String subreddit) {
@@ -37,25 +40,7 @@ public class CommentAggregator implements Aggregator {
             return;
 
         lastFullname = tmpLastFullname;
-        enqueue(result);
-    }
-
-    //TODO: Actually enqueue the result
-    private void enqueue(JSONArray result) {
-        File log = new File("comments.txt");
-        PrintWriter out = null;
-        try {
-            if(out == null)
-                out = new PrintWriter(new FileWriter(log, true));
-            for (String id : ModelsUtils.extractIds(result)) {
-                out.println(id);
-                logger.debug("COMMENT: CurrentTread: {}, ID: {}", Thread.currentThread().getName(), id);
-            }
-        } catch (IOException e) {
-
-        } finally {
-            out.close();
-        }
+        queueService.enqueueComment(result);
     }
 
     public void reversedAggregate(String subreddit) {
