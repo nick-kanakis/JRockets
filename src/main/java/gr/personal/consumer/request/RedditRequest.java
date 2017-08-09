@@ -2,6 +2,7 @@ package gr.personal.consumer.request;
 
 import gr.personal.oauth.Authentication;
 import gr.personal.utils.PropertyReader;
+import gr.personal.utils.RedditAPIUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -17,7 +18,6 @@ import java.util.Map;
 public abstract class RedditRequest {
     @Autowired
     private Logger logger;
-    private static final int MAX_MODELS_LIMIT = 100;
 
     //default userAgent in case of IOException when reading properties file
     private String userAgent = "web_backend:JRockets_bot:JRockets:v0.1";
@@ -36,24 +36,24 @@ public abstract class RedditRequest {
         }
 
         if (parameters == null) {
-            this.parameters = new HashMap<String, String>();
+            this.parameters = new HashMap<>();
         }
-        if(limit > MAX_MODELS_LIMIT)
-            limit = MAX_MODELS_LIMIT;
+        if(limit > RedditAPIUtils.MAX_MODELS_LIMIT)
+            limit = RedditAPIUtils.MAX_MODELS_LIMIT;
 
         this.parameters.put("limit", String.valueOf(limit));
     }
 
     public RedditRequest(String subreddit, Map<String, String> parameters, Authentication authentication) {
-        this(subreddit, parameters, MAX_MODELS_LIMIT, authentication);
+        this(subreddit, parameters, RedditAPIUtils.MAX_MODELS_LIMIT, authentication);
     }
 
     public RedditRequest(String subreddit, long limit, Authentication authentication) {
-        this(subreddit, new HashMap<String, String>(), limit, authentication);
+        this(subreddit, new HashMap<>(), limit, authentication);
     }
 
     public RedditRequest(String subreddit, Authentication authentication) {
-        this(subreddit, new HashMap<String, String>(), authentication);
+        this(subreddit, new HashMap<>(), authentication);
     }
 
     /**

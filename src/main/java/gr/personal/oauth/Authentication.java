@@ -20,6 +20,8 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by nkanakis on 7/12/2017.
+ *
+ * Authentication class is used to connect to OAuth API of Reddit and get a new access token when is needed.
  */
 @Component
 public class Authentication {

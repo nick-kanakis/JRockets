@@ -1,22 +1,15 @@
 package gr.personal.consumer;
 
 import gr.personal.consumer.model.Thing;
-import gr.personal.consumer.request.FullnamesRequest;
 import gr.personal.consumer.request.RedditRequest;
-import gr.personal.oauth.Authentication;
-import gr.personal.oauth.model.AccessToken;
-import gr.personal.oauth.model.OAuthResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.mockito.Matchers.any;
@@ -29,7 +22,7 @@ import static org.mockito.Mockito.*;
 public class RedditConsumerTest {
 
     @Mock
-    private RestClient client;
+    private RedditAPIClient client;
 
     @InjectMocks
     private RedditConsumer redditConsumer;

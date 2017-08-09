@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Created by Nick Kanakis on 31/7/2017.
+ *
+ *  Utilities that manipulate JSONArray objects
+ *
  */
 public final class JSONArrayUtils {
     private static final Logger logger = LoggerFactory.getLogger(JSONArrayUtils.class);

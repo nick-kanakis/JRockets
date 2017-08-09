@@ -12,10 +12,12 @@ import java.util.stream.Collectors;
 
 /**
  * Created by nkanakis on 7/13/2017.
+ *
+ * Utilities that transform data for easier interaction with Reddit's API.
  */
 public final class RedditAPIUtils {
     private static final Logger logger = LoggerFactory.getLogger(RedditAPIUtils.class);
-    private static final int MAX_MODELS_LIMIT = 100;
+    public static final int MAX_MODELS_LIMIT = 100;
 
     private RedditAPIUtils() {}
 
@@ -46,7 +48,6 @@ public final class RedditAPIUtils {
             // Add key-value pair
             parameters = parameters.concat(key + "=" + value);
         }
-
         return parameters;
     }
 
@@ -93,7 +94,6 @@ public final class RedditAPIUtils {
         JSONArray sortedChildren = new JSONArray();
         List<JSONObject> unsortedChildrenList = new ArrayList<>();
 
-
         for (int i = 0; i < unsortedChildren.length(); i++) {
             unsortedChildrenList.add(unsortedChildren.getJSONObject(i));
         }
@@ -118,5 +118,4 @@ public final class RedditAPIUtils {
         }
         return sortedChildren;
     }
-
 }

@@ -12,19 +12,19 @@ import gr.personal.utils.RedditAPIUtils;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * Created by nkanakis on 7/13/2017.
  */
 @Component
+/**
+ * Describes the list of available strategies for consuming content from Reddit's API.
+ */
 public class RedditConsumer {
     @Autowired
-    private RestClient client;
+    private RedditAPIClient client;
     @Autowired
     private Authentication authentication;
-    private static final int MAX_MODELS_LIMIT = 100;
-
     /**
      * Retrieve the first post for specified subreddit.
      *
@@ -48,7 +48,7 @@ public class RedditConsumer {
     }
 
     /**
-     * Retrieve last MAX_MODELS_LIMIT(=100) posts
+     * Retrieve last RedditAPIUtils.MAX_MODELS_LIMIT(=100) posts
      *
      * @param subreddit : subreddit to retrieve latest models from
      * @return (Reddit models) children
@@ -59,7 +59,7 @@ public class RedditConsumer {
     }
 
     /**
-     * Retrieve last MAX_MODELS_LIMIT(=100) comments
+     * Retrieve last RedditAPIUtils.MAX_MODELS_LIMIT(=100) comments
      *
      * @param subreddit : subreddit to retrieve latest models from.
      * @return (Reddit models) children
@@ -90,7 +90,7 @@ public class RedditConsumer {
 
 
     public JSONArray fetchForward(String initialFullname) {
-        return fetchByFullnames(initialFullname, MAX_MODELS_LIMIT);
+        return fetchByFullnames(initialFullname, RedditAPIUtils.MAX_MODELS_LIMIT);
     }
 
     public JSONArray fetchByRange(Thing start, Thing end) {
@@ -102,7 +102,7 @@ public class RedditConsumer {
         JSONArray concatenatedChildren = new JSONArray();
 
         while (initialId2Decimal < finalId2Decimal) {
-            int range = Math.min(MAX_MODELS_LIMIT, Math.toIntExact(finalId2Decimal - initialId2Decimal));
+            int range = Math.min(RedditAPIUtils.MAX_MODELS_LIMIT, Math.toIntExact(finalId2Decimal - initialId2Decimal));
 
             /** fetchByFullnames(startFullname, range) returns (startFullname+1, startFullname+2, .....), in this case
              * we want ((startFullname, startFullname+1, .....)) so we decrease the start full name by one.

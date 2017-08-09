@@ -11,8 +11,9 @@ import java.util.List;
 
 /**
  * Created by Nick Kanakis on 22/7/2017.
+ *
+ * Utilities that interact with reddit Models.
  */
-//TODO: Replace statics with services.
 public final class ModelsUtils {
     private static final Logger logger = LoggerFactory.getLogger(ModelsUtils.class);
 

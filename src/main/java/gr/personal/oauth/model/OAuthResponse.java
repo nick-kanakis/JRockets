@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * Created by nkanakis on 7/12/2017.
+ * Reddit OAuth response after a successful authentication.
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class OAuthResponse implements Serializable {

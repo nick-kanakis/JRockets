@@ -2,6 +2,8 @@ package gr.personal.oauth.model;
 
 /**
  * Created by nkanakis on 7/12/2017.
+ *
+ * AccessToken is used to hold all data (and metadata) regarding the authorization at Reddit.
  */
 public class AccessToken {
     /**

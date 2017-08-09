@@ -20,7 +20,10 @@ import org.springframework.web.client.RestTemplate;
  * Created by nkanakis on 7/20/2017.
  */
 @Component
-public class RestClient {
+/**
+ *  Handles every interaction with Reddit's API.
+ */
+public class RedditAPIClient {
     @Autowired
     private Logger logger;
 
@@ -28,7 +31,7 @@ public class RestClient {
     private static double delayInMs = 0;
     private static long lastCall = 0;
 
-    public RestClient() {
+    public RedditAPIClient() {
         restTemplate = new RestTemplate();
     }
 
