@@ -24,40 +24,35 @@ import java.util.List;
 public class OuputValidator {
 
     private static final Logger logger = LoggerFactory.getLogger(OuputValidator.class);
+
     /**
-     * Given a file, the method checks for out of sequence ids and returns the inconsistencies fullnames.
+     * Given a List of models, the method checks for out of sequence ids and returns the inconsistencies fullnames.
      *
-     * @param filepath
+     * @param models
      * @return missing fullnames.
      */
-    public static List<String> checkIncrementalIds(String filepath, boolean isComment) throws Exception {
+    public static List<String> checkIncrementalIds(List<JSONObject> models) throws Exception {
         long previousId = -1;
         List<String> inconsistentFullnames = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                long tmpId = Long.parseLong(line, 36);
 
-                if (previousId == -1) {
-                    previousId = tmpId;
-                    continue;
-                }
-                if (previousId > tmpId)
-                    throw new Exception("Unsorted list");
-                if (previousId == tmpId)
-                    throw new Exception("Duplicate values");
-                if (tmpId - previousId > 1) {
-                    if (isComment)
-                        inconsistentFullnames.add(ModelsUtils.decreaseFullnameByOne("t1_"+line));
-                    else
-                        inconsistentFullnames.add(ModelsUtils.decreaseFullnameByOne("t3_"+line));
-                }
+        String line;
+        for (JSONObject model : models) {
+
+            long tmpId = Long.parseLong(model.getJSONObject("data").getString("id"), 36);
+
+            if (previousId == -1) {
                 previousId = tmpId;
+                continue;
             }
+            if (previousId > tmpId)
+                throw new Exception("Unsorted list");
+            if (previousId == tmpId)
+                throw new Exception("Duplicate values");
+            if (tmpId - previousId > 1) {
+                inconsistentFullnames.add(ModelsUtils.decreaseFullnameByOne(model.getJSONObject("data").getString("name")));
+            }
+            previousId = tmpId;
         }
-
-        File file = new File(filepath);
-        file.delete();
         return inconsistentFullnames;
     }
 

@@ -42,7 +42,7 @@ public class CommentAggregatorTest {
         for (int i = 0; i < 10 ; i++) {
             commentAggregator.forwardAggregate("all");
         }
-        verify(queueService, times(10)).enqueueComment(any(JSONArray.class));
+        verify(queueService, times(10)).enqueueComment(any(JSONObject.class));
         verify(redditConsumer, times(1)).fetchInitialComment("all");
         verify(redditConsumer, times(9)).fetchForward(anyString());
     }

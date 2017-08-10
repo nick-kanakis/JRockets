@@ -44,7 +44,7 @@ public class PostAggregatorTest {
         for (int i = 0; i < 10 ; i++) {
             postAggregator.forwardAggregate("all");
         }
-        verify(queueService, times(10)).enqueuePost(any(JSONArray.class));
+        verify(queueService, times(10)).enqueuePost(any(JSONObject.class));
         verify(redditConsumer, times(1)).fetchInitialPost("all");
         verify(redditConsumer, times(9)).fetchForward(anyString());
     }

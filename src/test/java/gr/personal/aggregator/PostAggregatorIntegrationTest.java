@@ -2,15 +2,27 @@ package gr.personal.aggregator;
 
 import gr.personal.helper.IntegrationTest;
 import gr.personal.helper.OuputValidator;
+import gr.personal.queue.QueueService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+
+import static org.mockito.Mockito.times;
+
 
 /**
  * Created by Nick Kanakis on 23/7/2017.
@@ -19,17 +31,25 @@ import java.util.List;
 @SpringBootTest
 @Category(IntegrationTest.class)
 public class PostAggregatorIntegrationTest {
+    private static final int NUM_OF_RUNS =100;
+
     @Autowired
     private PostAggregator postAggregator;
+
+    @SpyBean
+    private QueueService queueService;
 
     @Test
     //TODO: check why I have ~0.0005% missing comments.
     public void testAggregate() throws Exception {
-        for (int i = 0; i < 100; i++) {
+        ArgumentCaptor<JSONObject> queueCaptor = ArgumentCaptor.forClass(JSONObject.class);
+        for (int i = 0; i < NUM_OF_RUNS; i++) {
             postAggregator.forwardAggregate("all");
         }
-        //todo: change it when queue is added
-        List<String> fullnames = OuputValidator.checkIncrementalIds("posts.txt", false);
+        Mockito.verify(queueService, times(NUM_OF_RUNS)).enqueuePost(queueCaptor.capture());
+        List<JSONObject> capturedModels = queueCaptor.getAllValues();
+        List<String> fullnames = OuputValidator.checkIncrementalIds(capturedModels);
+
         Assert.assertTrue( OuputValidator.checkValidFullnames(fullnames)<=0);
     }
 }
