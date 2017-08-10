@@ -40,7 +40,9 @@ public class CommentAggregator implements Aggregator {
             return;
 
         lastFullname = tmpLastFullname;
-        queueService.enqueueComment(result);
+        for (int i = 0; i<= result.length() - 1 ; i++) {
+            queueService.enqueueComment(result.getJSONObject(i));
+        }
     }
 
     public void reversedAggregate(String subreddit) {
