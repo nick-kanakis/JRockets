@@ -15,6 +15,8 @@ import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
@@ -24,15 +26,14 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringRunner.class)
 public class RedditAPIClientTest {
 
-    @Mock
-    private RestTemplate restTemplate;
-
     @InjectMocks
     private RedditAPIClient client;
     @Mock
     private RedditRequest request;
     @Mock
     private Authentication authentication;
+    @Mock
+    private RestTemplate restTemplate;
 
     @Before
     public void setUp() throws Exception {
@@ -58,8 +59,26 @@ public class RedditAPIClientTest {
                 .thenReturn(response);
 
         Assert.assertNotNull(client.executeGetRequestWithDelayPolicy(request));
+        Assert.assertNotNull(client.executeGetRequestWithDelayPolicy(request));
 
+        verify(restTemplate, times(2)).exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class));
+    }
 
+    @Test
+    public void testExecuteGetRequestWithoutDelayPolicy() throws Exception {
+        String body ="{\"data\":{\"modhash\": \"\",\"children\": [{\"kind\": \"t3\",\"data\": {\"name\":\"t3_6rbvyo\",\"id\":\"6rbvyo\"}}]}}";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Ratelimit-Remaining", "100");
+        headers.add("X-Ratelimit-Reset", "100");
+
+        ResponseEntity<String> response = new ResponseEntity<>(body, headers,HttpStatus.ACCEPTED);
+        when(restTemplate.exchange(anyString(),eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
+                .thenReturn(response);
+
+        Assert.assertNotNull(client.executeGetRequestWithoutDelayPolicy(request));
+        Assert.assertNotNull(client.executeGetRequestWithoutDelayPolicy(request));
+        verify(restTemplate, times(2)).exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class));
     }
 
 }
