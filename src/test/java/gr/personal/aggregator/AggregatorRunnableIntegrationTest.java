@@ -7,14 +7,12 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by nkanakis on 7/26/2017.
@@ -37,9 +35,9 @@ public class AggregatorRunnableIntegrationTest {
         aggregatorRunnable.stop();
         //todo: change it when queue is added
         List<String> postFullnames = OuputValidator.checkIncrementalIds("posts.txt", false);
-        Assert.assertTrue( OuputValidator.checkValideFullnames(postFullnames)<=0);
+        Assert.assertTrue( OuputValidator.checkValidFullnames(postFullnames)<=0);
         List<String> commentFullnames = OuputValidator.checkIncrementalIds("comments.txt", true);
-        Assert.assertTrue( OuputValidator.checkValideFullnames(commentFullnames)<=0);
+        Assert.assertTrue( OuputValidator.checkValidFullnames(commentFullnames)<=0);
 
     }
 }

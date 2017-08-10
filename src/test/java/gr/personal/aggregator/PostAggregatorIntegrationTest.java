@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +30,6 @@ public class PostAggregatorIntegrationTest {
         }
         //todo: change it when queue is added
         List<String> fullnames = OuputValidator.checkIncrementalIds("posts.txt", false);
-        Assert.assertTrue( OuputValidator.checkValideFullnames(fullnames)<=0);
+        Assert.assertTrue( OuputValidator.checkValidFullnames(fullnames)<=0);
     }
 }

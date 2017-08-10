@@ -67,7 +67,7 @@ public class OuputValidator {
      * @param fullnames List of ids to check
      * @return number of valid ids
      */
-    public static int checkValideFullnames(List<String> fullnames) throws JSONException, InterruptedException {
+    public static int checkValidFullnames(List<String> fullnames) throws JSONException, InterruptedException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         //default userAgent in case of IOException when reading properties file
