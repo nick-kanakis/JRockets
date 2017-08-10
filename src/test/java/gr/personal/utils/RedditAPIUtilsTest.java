@@ -83,6 +83,23 @@ public class RedditAPIUtilsTest {
     }
 
     @Test
+    public void testShortChildrenArrayWithNullData() throws Exception {
+        Assert.assertNotNull(RedditAPIUtils.shortChildrenArray(null));
+    }
+
+    @Test
+    public void testTransformFullnamesToThingsNullInput() throws Exception{
+        List<Thing> things = RedditAPIUtils.transformFullnamesToThings(null, 1);
+        Assert.assertNotNull(things);
+    }
+
+    @Test
+    public void testTransformFullnamesToThingsExceedLimit() throws Exception{
+        List<Thing> things = RedditAPIUtils.transformFullnamesToThings("t1_1", 200);
+        Assert.assertEquals(100, things.size());
+    }
+
+    @Test
     public void testTransformFullnamesToThings() throws Exception {
         JSONArray childrenArray = new JSONArray();
 

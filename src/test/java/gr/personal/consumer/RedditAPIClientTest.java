@@ -34,7 +34,6 @@ public class RedditAPIClientTest {
     @Mock
     private Authentication authentication;
 
-
     @Before
     public void setUp() throws Exception {
         request = new CommentRequest("all", authentication);

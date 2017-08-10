@@ -69,6 +69,16 @@ public class JSONArrayUtilsTest {
     }
 
     @Test
+    public void testSplitArrayNullChildren() throws Exception {
+        Assert.assertNotNull(JSONArrayUtils.splitArray(mockObject, 3));
+    }
+
+    @Test
+    public void testSplitArrayNegativeIndex() throws Exception {
+        Assert.assertNotNull(JSONArrayUtils.splitArray(null, -1));
+    }
+
+    @Test
     public void testConcatArray() throws Exception {
         JSONArray part1 = new JSONArray();
         JSONArray part2 = new JSONArray();
@@ -82,9 +92,12 @@ public class JSONArrayUtilsTest {
             else
                 part2.put(model);
         }
-
         JSONArray concatArray = JSONArrayUtils.concatArray(part1, part2);
-
         Assert.assertEquals(5, concatArray.getJSONObject(concatArray.length()-1).getInt("id"));
+    }
+
+    @Test
+    public void testConcatArrayNullInput() throws Exception {
+        Assert.assertNotNull(JSONArrayUtils.concatArray(null));
     }
 }

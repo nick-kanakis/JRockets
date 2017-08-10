@@ -44,17 +44,37 @@ public class ModelsUtilsTest {
     public void testExtractFullname() throws Exception {
         Assert.assertEquals("3", ModelsUtils.extractFullname(mockObject, 2));
     }
+    @Test
+    public void testExtractFullnameWrongIndex() throws Exception {
+        Assert.assertEquals("", ModelsUtils.extractFullname(mockObject, -1));
+    }
+    @Test
+    public void testExtractFullnameNullChildren() throws Exception {
+        Assert.assertEquals("", ModelsUtils.extractFullname(null, 2));
+    }
+
 
     @Test
     public void testExtractInitialFullname() throws Exception {
         String id = ModelsUtils.extractInitialFullname(mockObject);
         Assert.assertEquals("1",id);
     }
+    @Test
+    public void testExtractInitialFullnameNullInput() throws Exception {
+        String id = ModelsUtils.extractInitialFullname(null);
+        Assert.assertEquals("",id);
+    }
 
     @Test
     public void testExtractLastFullname() throws Exception {
         String id = ModelsUtils.extractLastFullname(mockObject);
         Assert.assertEquals("4",id);
+    }
+
+    @Test
+    public void testExtractLastFullnameNullInput() throws Exception {
+        String id = ModelsUtils.extractLastFullname(null);
+        Assert.assertEquals("",id);
     }
 
     @Test
@@ -72,6 +92,11 @@ public class ModelsUtilsTest {
             childrenArray.put(i,model);
         }
         Assert.assertEquals("4", ModelsUtils.extractLastId(childrenArray));
+    }
+
+    @Test
+    public void testExtractLastIdNullInput() throws Exception {
+        Assert.assertEquals("", ModelsUtils.extractLastId(null));
     }
 
     @Test
@@ -106,6 +131,12 @@ public class ModelsUtilsTest {
         ids.add("4");
 
         Assert.assertThat(ids, is( ModelsUtils.extractIds(childrenArray)));
+    }
+
+    @Test
+    public void testExtractIdsNullInput() throws Exception {
+
+        Assert.assertNotNull(ModelsUtils.extractIds(null));
     }
 
     @Test

@@ -24,7 +24,7 @@ public final class ModelsUtils {
             return "";
         JSONObject innerModel;
 
-        if(children ==null || index <0){
+        if(children ==null){
             logger.warn("Method extractFullname incorrect arguments");
             return "";
         }
