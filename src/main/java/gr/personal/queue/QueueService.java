@@ -2,8 +2,6 @@ package gr.personal.queue;
 
 import org.json.JSONObject;
 
-import java.util.List;
-
 /**
  * Created by nkanakis on 8/9/2017.
  */

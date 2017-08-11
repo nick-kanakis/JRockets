@@ -15,7 +15,7 @@ public class Thing {
         this.fullName = fullName;
         String[] split = fullName.split("_");
         this.kind = Kind.valueOf(split[0]);
-        this.id = split[1];;
+        this.id = split[1];
     }
 
     public Thing(String kind, long idToDecimal){

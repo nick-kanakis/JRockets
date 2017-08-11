@@ -1,17 +1,12 @@
 package gr.personal.configuration;
 
 import gr.personal.aggregator.AggregatorRunnable;
-import gr.personal.aggregator.CommentAggregator;
-import gr.personal.aggregator.PostAggregator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InjectionPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import org.w3c.dom.Comment;
-
-import java.util.function.Supplier;
 
 /**
  * Created by Nick Kanakis on 25/7/2017.

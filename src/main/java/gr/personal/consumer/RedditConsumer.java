@@ -1,13 +1,13 @@
 package gr.personal.consumer;
 
-import gr.personal.utils.JSONArrayUtils;
-import gr.personal.utils.ModelsUtils;
 import gr.personal.consumer.model.Thing;
-import gr.personal.consumer.request.FullnamesRequest;
 import gr.personal.consumer.request.CommentRequest;
+import gr.personal.consumer.request.FullnamesRequest;
 import gr.personal.consumer.request.PostRequest;
 import gr.personal.consumer.request.RedditRequest;
 import gr.personal.oauth.Authentication;
+import gr.personal.utils.JSONArrayUtils;
+import gr.personal.utils.ModelsUtils;
 import gr.personal.utils.RedditAPIUtils;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;

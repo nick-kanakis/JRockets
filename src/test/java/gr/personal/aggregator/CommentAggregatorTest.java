@@ -14,9 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by Nick Kanakis on 2/8/2017.

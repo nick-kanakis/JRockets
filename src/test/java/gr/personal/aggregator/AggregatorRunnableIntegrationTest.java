@@ -1,7 +1,6 @@
 package gr.personal.aggregator;
 
 import gr.personal.helper.IntegrationTest;
-import gr.personal.helper.OuputValidator;
 import gr.personal.queue.QueueService;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -19,9 +18,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.times;
 
 /**
  * Created by nkanakis on 7/26/2017.

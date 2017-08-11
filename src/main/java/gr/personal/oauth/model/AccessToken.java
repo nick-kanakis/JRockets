@@ -38,9 +38,7 @@ public class AccessToken {
      * If current time is 5sec from expiration consider the token expired for safety
      */
     public boolean hasExpired(){
-        if((expiration - System.currentTimeMillis()/1000) < 4)
-            return true;
-        return false;
+        return expiration - (System.currentTimeMillis()/1000) < 4;
     }
 
     @Override

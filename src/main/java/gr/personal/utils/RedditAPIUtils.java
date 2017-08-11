@@ -7,7 +7,10 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -51,22 +54,22 @@ public final class RedditAPIUtils {
         return parameters;
     }
 
-    public static List<Thing> transformFullnamesToThings(String initialFullname, int length){
+    public static List<Thing> transformFullnamesToThings(String initialFullname, int numberOfSubsequentModels){
 
-        if(initialFullname == null || length<0){
+        if(initialFullname == null || numberOfSubsequentModels<0){
             logger.warn("Method transformFullnamesToThings incorrect arguments");
             return new ArrayList<>();
         }
 
-        if(length>MAX_MODELS_LIMIT) {
-            length = MAX_MODELS_LIMIT;
+        if(numberOfSubsequentModels>MAX_MODELS_LIMIT) {
+            numberOfSubsequentModels = MAX_MODELS_LIMIT;
         }
         Thing initialThing = new Thing(initialFullname);
         List<Thing> things = new ArrayList<Thing>();
 
         long initialIdToDecimal = Long.valueOf(initialThing.getId(), 36);
 
-        for(long currentId =initialIdToDecimal +1; currentId <initialIdToDecimal+length+ 1; currentId++){
+        for(long currentId =initialIdToDecimal +1; currentId <initialIdToDecimal+numberOfSubsequentModels+ 1; currentId++){
             things.add(new Thing(initialThing.getKind(), currentId));
         }
         return things;

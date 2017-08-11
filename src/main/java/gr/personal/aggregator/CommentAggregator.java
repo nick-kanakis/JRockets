@@ -5,12 +5,8 @@ import gr.personal.queue.QueueService;
 import gr.personal.utils.ModelsUtils;
 import org.json.JSONArray;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import java.io.*;
 
 /**
  * Created by Nick Kanakis on 22/7/2017.

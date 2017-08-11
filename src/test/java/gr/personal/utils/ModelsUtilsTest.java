@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ import static org.hamcrest.Matchers.is;
 @RunWith(SpringRunner.class)
 public class ModelsUtilsTest {
 
-    JSONArray mockObject;
+    private JSONArray mockObject;
     
     @Before
     public void setUp() throws Exception {

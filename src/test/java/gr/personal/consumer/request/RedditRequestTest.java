@@ -2,12 +2,10 @@ package gr.personal.consumer.request;
 
 import gr.personal.oauth.Authentication;
 import gr.personal.oauth.model.AccessToken;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.slf4j.Logger;

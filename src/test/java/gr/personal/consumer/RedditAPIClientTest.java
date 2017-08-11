@@ -4,7 +4,6 @@ import gr.personal.consumer.request.CommentRequest;
 import gr.personal.consumer.request.RedditRequest;
 import gr.personal.oauth.Authentication;
 import gr.personal.oauth.model.AccessToken;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +13,6 @@ import org.mockito.Mock;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.URI;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -40,10 +37,6 @@ public class RedditAPIClientTest {
         request = new CommentRequest("all", authentication);
         when(authentication.getAccessToken()).thenReturn(new AccessToken("testToken", 1000));
 
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test
