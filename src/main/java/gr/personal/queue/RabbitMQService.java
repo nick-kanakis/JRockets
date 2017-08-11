@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RabbitMQService implements QueueService {
-    @Autowired
-    private Logger logger;
 
     @Override
     public void enqueueComment(JSONObject model2Enqueue) {

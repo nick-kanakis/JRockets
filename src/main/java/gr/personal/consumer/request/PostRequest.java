@@ -11,8 +11,6 @@ import java.util.Map;
  * Created by nkanakis on 7/13/2017.
  */
 public class PostRequest extends RedditRequest {
-    @Autowired
-    private Logger logger;
     private static final String ENDPOINT_FORMAT = "https://oauth.reddit.com/r/%s/new.json?%s";
 
     public PostRequest(String subreddit, Map<String, String> parameters, long limit, Authentication authentication) {

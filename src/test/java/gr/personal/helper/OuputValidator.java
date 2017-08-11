@@ -34,7 +34,6 @@ public class OuputValidator {
         long previousId = -1;
         List<String> inconsistentFullnames = new ArrayList<>();
 
-        String line;
         for (JSONObject model : models) {
 
             long tmpId = Long.parseLong(model.getJSONObject("data").getString("id"), 36);

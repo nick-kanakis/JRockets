@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
  */
 @Component("PostAggregator")
 public class PostAggregator implements Aggregator {
-    @Autowired
-    private Logger logger;
 
     @Autowired
     private RedditConsumer redditConsumer;

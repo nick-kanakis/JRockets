@@ -102,8 +102,8 @@ public final class RedditAPIUtils {
         }
 
         List<JSONObject> sortedChildrenList = unsortedChildrenList.stream().sorted((o1, o2) -> {
-            String valA = new String();
-            String valB = new String();
+            String valA = "";
+            String valB = "";
 
             try {
                 JSONObject data1 = (JSONObject) o1.get("data");

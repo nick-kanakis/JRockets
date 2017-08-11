@@ -15,9 +15,6 @@ import org.springframework.stereotype.Component;
 public class CommentAggregator implements Aggregator {
 
     @Autowired
-    private Logger logger;
-
-    @Autowired
     private RedditConsumer redditConsumer;
     @Autowired
     private QueueService queueService;
