@@ -44,9 +44,4 @@ public class BeanConfig {
         return LoggerFactory.getLogger(injectionPoint.getMember().getDeclaringClass());
     }
 
-    @Bean
-    public DirectExchange direct(){
-        return new DirectExchange("reddit.direct");
-    }
-
 }

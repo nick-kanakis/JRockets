@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,7 +22,7 @@ public class AggregatorExecutor {
     private AggregatorRunnable aggregator;
     private ExecutorService executorService;
 
-//@PostConstruct
+@PostConstruct
 //TODO: Disable postConstructor in testing.
     public void start(){
         logger.info("Start data aggregation from Reddit API ");
