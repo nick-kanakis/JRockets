@@ -4,7 +4,6 @@ import gr.personal.consumer.RedditConsumer;
 import gr.personal.queue.QueueService;
 import gr.personal.utils.ModelsUtils;
 import org.json.JSONArray;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
