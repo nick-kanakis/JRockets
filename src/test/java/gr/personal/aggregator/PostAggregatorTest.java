@@ -48,7 +48,6 @@ public class PostAggregatorTest {
 
     @Test(expected = RuntimeException.class)
     public void testReversedAggregate() throws Exception {
-        //todo add test when reversedAggregation is implemented
         postAggregator.reversedAggregate("all");
     }
 

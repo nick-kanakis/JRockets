@@ -47,7 +47,6 @@ public class CommentAggregatorTest {
 
     @Test(expected = RuntimeException.class)
     public void testReversedAggregate() throws Exception {
-        //todo add test when reversedAggregation is implemented
         commentAggregator.reversedAggregate(anyString());
     }
 
