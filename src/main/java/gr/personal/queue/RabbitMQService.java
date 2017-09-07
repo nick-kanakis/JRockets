@@ -28,11 +28,11 @@ public class RabbitMQService implements QueueService {
 
     @Override
     public void enqueueComment(JSONObject model2Enqueue) {
-        template.convertAndSend(direct.getName(), COMMENT_KEY, model2Enqueue );
+        template.convertAndSend(direct.getName(), COMMENT_KEY, model2Enqueue.toString());
     }
 
     @Override
     public void enqueuePost(JSONObject model2Enqueue) {
-        template.convertAndSend(direct.getName(), POST_KEY, model2Enqueue );
+        template.convertAndSend(direct.getName(), POST_KEY, model2Enqueue.toString());
     }
 }

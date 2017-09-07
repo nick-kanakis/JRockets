@@ -43,5 +43,4 @@ public class BeanConfig {
     public Logger logger(InjectionPoint injectionPoint){
         return LoggerFactory.getLogger(injectionPoint.getMember().getDeclaringClass());
     }
-
 }
