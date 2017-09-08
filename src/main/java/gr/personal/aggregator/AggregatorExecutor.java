@@ -22,7 +22,7 @@ public class AggregatorExecutor {
     private AggregatorRunnable aggregator;
     private ExecutorService executorService;
 
-//@PostConstruct
+@PostConstruct
 //TODO: Disable postConstructor in testing.
     public void start(){
         logger.info("Start data aggregation from Reddit API ");
