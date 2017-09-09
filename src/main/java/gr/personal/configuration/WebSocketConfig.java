@@ -16,12 +16,14 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-        stompEndpointRegistry.addEndpoint("/comments", "/posts").withSockJS();
+        stompEndpointRegistry.addEndpoint("/commentStream", "/postStream").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.setApplicationDestinationPrefixes("/app");
-        config.enableSimpleBroker("/");
+        config.enableSimpleBroker("/queue", "/topic");
+//        simple broker is not suitable for production environments.
+//        config.enableStompBrokerRelay("/queue", "/topic");
     }
 }

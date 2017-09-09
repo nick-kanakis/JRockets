@@ -3,6 +3,7 @@ package gr.personal.queue.consumers;
 import org.slf4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,17 +15,22 @@ public class StreamConsumer {
     @Autowired
     private Logger logger;
 
-    //todo read from queue
+    @Autowired
+    private SimpMessagingTemplate webSocket;
+
+    //todo read from properties queue name
     @RabbitListener(queues = "COMMENT_QUEUE" )
-    public void commentReceiver(String input){
-        logger.info(input);
+    public void commentReceiver(String output){
+        logger.info(output);
         //todo sent message to websocket
+        webSocket.convertAndSend("/topic/comments",output);
     }
 
-    //todo read from queue
+    //todo read from properties queue name
     @RabbitListener(queues = "POST_QUEUE" )
-    public void postReceiver(String input){
-        logger.info(input);
+    public void postReceiver(String output){
+        logger.info(output);
         //todo sent message to websocket
+        webSocket.convertAndSend("/topic/posts",output);
     }
 }
