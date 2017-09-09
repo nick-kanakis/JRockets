@@ -41,6 +41,7 @@ public class PostAggregator implements Aggregator {
 
     @Override
     public void reversedAggregate(String subreddit) {
+        //todo add reversed aggregation
         throw new RuntimeException("ReversedAggregate in not yet supported");
     }
 

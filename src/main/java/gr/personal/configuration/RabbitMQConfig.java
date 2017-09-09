@@ -22,10 +22,12 @@ public class RabbitMQConfig {
     private String commentRoutingKey;
     @Value("${rabbitmq.post.routingKey}")
     private String postRoutingKey;
+    @Value("${rabbitmq.exchange.direct.name}")
+    private String exchangeName;
 
     @Bean
     public DirectExchange direct(){
-        return new DirectExchange("reddit.direct");
+        return new DirectExchange(exchangeName);
     }
 
     @Bean

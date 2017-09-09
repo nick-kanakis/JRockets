@@ -18,7 +18,6 @@ public class AggregatorRunnable implements Runnable {
     @Autowired
     @Qualifier("CommentAggregator")
     private Aggregator commentAggregator;
-
     @Autowired
     @Qualifier("PostAggregator")
     private Aggregator postAggregator;

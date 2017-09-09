@@ -23,7 +23,7 @@ public class AggregatorExecutor {
     private ExecutorService executorService;
 
 @PostConstruct
-//TODO: Disable postConstructor in testing.
+//TODO: Disable postConstructor in integration testing.
     public void start(){
         logger.info("Start data aggregation from Reddit API ");
         ExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
