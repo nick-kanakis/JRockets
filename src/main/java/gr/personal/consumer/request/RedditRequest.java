@@ -14,6 +14,8 @@ import java.util.Map;
 
 /**
  * Created by nkanakis on 7/21/2017.
+ *
+ * Base class for constructing every request sent to Reddit.
  */
 public abstract class RedditRequest {
     @Autowired

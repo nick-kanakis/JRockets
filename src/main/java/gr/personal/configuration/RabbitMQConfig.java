@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by Nick Kanakis on 6/9/2017.
+ *
+ * There are 2 queues (comments, posts) that are bounded to a direct exchange.
  */
 @Configuration
 public class RabbitMQConfig {

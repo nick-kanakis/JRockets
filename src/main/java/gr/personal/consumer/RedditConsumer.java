@@ -10,6 +10,7 @@ import gr.personal.utils.JSONArrayUtils;
 import gr.personal.utils.ModelsUtils;
 import gr.personal.utils.RedditAPIUtils;
 import org.json.JSONArray;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Component;
  */
 public class RedditConsumer {
     @Autowired
+    private Logger logger;
+    @Autowired
     private RedditAPIClient client;
     @Autowired
     private Authentication authentication;
@@ -32,6 +35,7 @@ public class RedditConsumer {
      * @return (Reddit models) single child object
      */
     public JSONArray fetchInitialPost(String subreddit) {
+        logger.debug("Fetch initial post for subreddit: "+ subreddit);
         RedditRequest request = new PostRequest(subreddit, 1, authentication);
         return client.executeGetRequestWithDelayPolicy(request);
     }
@@ -43,6 +47,7 @@ public class RedditConsumer {
      * @return (Reddit models) single child object
      */
     public JSONArray fetchInitialComment(String subreddit) {
+        logger.debug("Fetch initial comment for subreddit: "+ subreddit);
         RedditRequest request = new CommentRequest(subreddit, 1, authentication);
         return client.executeGetRequestWithDelayPolicy(request);
     }
@@ -54,6 +59,7 @@ public class RedditConsumer {
      * @return (Reddit models) children
      */
     public JSONArray fetchReversedPosts(String subreddit) {
+        logger.debug("Reversed fetch posts for subreddit: "+ subreddit);
         RedditRequest request = new PostRequest(subreddit, authentication);
         return client.executeGetRequestWithDelayPolicy(request);
     }
@@ -65,6 +71,7 @@ public class RedditConsumer {
      * @return (Reddit models) children
      */
     public JSONArray fetchReversedComments(String subreddit) {
+        logger.debug("Reversed fetch comments for subreddit: "+ subreddit);
         RedditRequest request = new CommentRequest(subreddit, authentication);
         return client.executeGetRequestWithDelayPolicy(request);
     }
@@ -82,7 +89,7 @@ public class RedditConsumer {
      * @return (Reddit models) children
      */
     public JSONArray fetchByFullnames(String initialFullname, int length) {
-
+        logger.debug("Fetch by fullnames for: "+ initialFullname);
         String commaSeparatedFullnames = RedditAPIUtils.transformFullnamesToCommaSeparated(initialFullname, length);
         RedditRequest request = new FullnamesRequest(authentication, commaSeparatedFullnames);
         return client.executeGetRequestWithDelayPolicy(request);

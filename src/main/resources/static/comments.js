@@ -13,7 +13,6 @@ function connect2Comments() {
 function showResult(message) {
     $("#comments").append("<br>" + message +"<br>");
     window.scrollTo(0,document.body.scrollHeight);
-
 }
 
 $(function () {

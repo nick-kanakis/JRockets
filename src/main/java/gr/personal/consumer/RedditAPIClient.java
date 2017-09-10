@@ -51,7 +51,6 @@ public class RedditAPIClient {
         }
 
         ResponseEntity<String> response = restTemplate.exchange(request.generateURI(), HttpMethod.GET, request.generateHttpHeaders(), String.class);
-
         HttpHeaders headers = response.getHeaders();
 
         double requestsRemaining = Double.valueOf(headers.get("X-Ratelimit-Remaining").get(0));

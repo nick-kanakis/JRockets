@@ -36,7 +36,6 @@ public class PostAggregatorIntegrationTest {
     private QueueService queueService;
 
     @Test
-    //TODO: check why I have ~0.0005% missing comments.
     public void testAggregate() throws Exception {
         ArgumentCaptor<JSONObject> queueCaptor = ArgumentCaptor.forClass(JSONObject.class);
         for (int i = 0; i < NUM_OF_RUNS; i++) {

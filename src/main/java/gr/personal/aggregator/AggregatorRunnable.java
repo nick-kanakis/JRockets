@@ -32,7 +32,7 @@ public class AggregatorRunnable implements Runnable {
         } catch (IOException e) {
             logger.warn("Unable to fetch properties", e);
         }
-
+        logger.info("Starting aggregator process from /" +subreddit);
         /**
          * While tread is not interrupted by eg:
          * Thread.currentThread().interrupt()
