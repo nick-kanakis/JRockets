@@ -18,12 +18,16 @@ public class StreamConsumer {
 
     @RabbitListener(queues = "${rabbitmq.comment.queue}" )
     public void commentReceiver(String output){
+        if(output == null || output.equals(""))
+            return;
         logger.debug("Comment send to websocket: "+ output);
         webSocket.convertAndSend("/topic/comments",output);
     }
 
     @RabbitListener(queues = "${rabbitmq.post.queue}" )
     public void postReceiver(String output){
+        if(output == null || output.equals(""))
+            return;
         logger.debug("Posr send to websocket: "+output);
         webSocket.convertAndSend("/topic/posts",output);
     }
