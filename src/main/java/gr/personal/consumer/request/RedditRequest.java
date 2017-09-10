@@ -27,7 +27,7 @@ public abstract class RedditRequest {
     protected String subreddit;
     protected Map<String, String> parameters;
 
-    public RedditRequest(String subreddit, Map<String, String> parameters, long modelsLimit, Authentication authentication) {
+    public RedditRequest(String subreddit, Map<String, String> parameters, long redditModelsLimit, Authentication authentication) {
         this.subreddit = subreddit;
         this.parameters = parameters;
         this.authentication = authentication;
@@ -40,10 +40,10 @@ public abstract class RedditRequest {
         if (parameters == null) {
             this.parameters = new HashMap<>();
         }
-        if(modelsLimit > RedditAPIUtils.MAX_MODELS_LIMIT)
-            modelsLimit = RedditAPIUtils.MAX_MODELS_LIMIT;
+        if(redditModelsLimit > RedditAPIUtils.MAX_MODELS_LIMIT)
+            redditModelsLimit = RedditAPIUtils.MAX_MODELS_LIMIT;
 
-        this.parameters.put("limit", String.valueOf(modelsLimit));
+        this.parameters.put("limit", String.valueOf(redditModelsLimit));
     }
 
     public RedditRequest(String subreddit, Map<String, String> parameters, Authentication authentication) {

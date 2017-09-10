@@ -54,22 +54,22 @@ public final class RedditAPIUtils {
         return parameters;
     }
 
-    public static List<Thing> transformFullnamesToThings(String initialFullname, int numberOfSubsequentModels){
+    public static List<Thing> transformFullnamesToThings(String initialFullname, int numberOfSubsequentRedditModels){
 
-        if(initialFullname == null || numberOfSubsequentModels<0){
+        if(initialFullname == null || numberOfSubsequentRedditModels<0){
             logger.warn("Method transformFullnamesToThings incorrect arguments");
             return new ArrayList<>();
         }
 
-        if(numberOfSubsequentModels>MAX_MODELS_LIMIT) {
-            numberOfSubsequentModels = MAX_MODELS_LIMIT;
+        if(numberOfSubsequentRedditModels>MAX_MODELS_LIMIT) {
+            numberOfSubsequentRedditModels = MAX_MODELS_LIMIT;
         }
         Thing initialThing = new Thing(initialFullname);
         List<Thing> things = new ArrayList<Thing>();
 
         long initialIdToDecimal = Long.valueOf(initialThing.getId(), 36);
 
-        for(long currentId =initialIdToDecimal +1; currentId <initialIdToDecimal+numberOfSubsequentModels+ 1; currentId++){
+        for(long currentId =initialIdToDecimal +1; currentId <initialIdToDecimal+numberOfSubsequentRedditModels+ 1; currentId++){
             things.add(new Thing(initialThing.getKind(), currentId));
         }
         return things;
