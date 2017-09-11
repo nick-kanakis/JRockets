@@ -16,6 +16,9 @@ Originally inspired and based on [Rockets](https://github.com/rockets/rockets).
 
 ## Topology
 
+![topology](https://user-images.githubusercontent.com/4174162/30293673-0801c608-9743-11e7-990a-4d127d2b75cb.gif)
+
+
 ## API
 
 If you want use the provided clients to view the stream of comments and posts use the following endpoints:
