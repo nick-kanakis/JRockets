@@ -1,4 +1,4 @@
-package gr.personal.queue.consumer;
+package gr.personal.queue.listener;
 
 import org.slf4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * Created by nkanakis on 9/8/2017.
  */
 @Service
-public class StreamConsumer {
+public class StreamListener {
     @Autowired
     private Logger logger;
     @Autowired

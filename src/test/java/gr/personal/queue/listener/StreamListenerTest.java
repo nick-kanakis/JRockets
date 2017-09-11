@@ -1,4 +1,4 @@
-package gr.personal.queue.consumer;
+package gr.personal.queue.listener;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,35 +16,35 @@ import static org.mockito.Mockito.verify;
  * Created by Nick Kanakis on 10/9/2017.
  */
 @RunWith(SpringRunner.class)
-public class StreamConsumerTest {
+public class StreamListenerTest {
     @Mock
     private Logger logger;
     @Mock
     private SimpMessagingTemplate webSocket;
     @InjectMocks
-    private StreamConsumer streamConsumer;
+    private StreamListener streamListener;
 
     @Test
     public void TestNullCommentReceiver() throws Exception{
-        streamConsumer.commentReceiver(null);
+        streamListener.commentReceiver(null);
         verify(webSocket, times(0)).convertAndSend(anyString(), anyString());
     }
 
     @Test
     public void TestEmptyCommentReceiver() throws Exception{
-        streamConsumer.commentReceiver("");
+        streamListener.commentReceiver("");
         verify(webSocket, times(0)).convertAndSend(anyString(), anyString());
     }
 
     @Test
     public void TestNullPostReceiver() throws Exception{
-        streamConsumer.postReceiver(null);
+        streamListener.postReceiver(null);
         verify(webSocket, times(0)).convertAndSend(anyString(), anyString());
     }
 
     @Test
     public void TestEmptyPostReceiver() throws Exception{
-        streamConsumer.postReceiver("");
+        streamListener.postReceiver("");
         verify(webSocket, times(0)).convertAndSend(anyString(), anyString());
     }
 }
