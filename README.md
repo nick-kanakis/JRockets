@@ -16,7 +16,7 @@ Originally inspired and based on [Rockets](https://github.com/rockets/rockets).
 
 ## Topology
 
-![topology](https://user-images.githubusercontent.com/4174162/30293673-0801c608-9743-11e7-990a-4d127d2b75cb.gif)
+![topology](https://user-images.githubusercontent.com/4174162/30294111-a7f0e008-9744-11e7-8fd6-f1020d2cb1fe.png)
 
 
 ## API
