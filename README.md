@@ -27,17 +27,20 @@ If you want use the provided clients to view the stream of comments and posts us
 - `http://localhost:8080/posts`
 
 The sockets endpoint are available at:
+
 - `http://localhost:8080/commentStream`
 - `http://localhost:8080/postStream`
 
 The stomp client can subscribe to:
+
 - `http://localhost:8080/topic/comments`
 - `http://localhost:8080/topic/posts`
 
 ## How to run
 
-Before you start you will need to have a RabbitMQ instance running on port 5672 (default). To run JRockets
-just execute: `mvn spring-boot:run`.
+1. Before you start you will need to have a RabbitMQ instance running on port 5672 (default).
+2. Add the OAuth credentials described in the 2 properties files .
+3. Run JRockets by executing: `mvn spring-boot:run`.
 
 **Todo**:
 - [ ] Build docker images
